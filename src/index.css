@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 20% 97%;
+    --foreground: 220 20% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 15%;
+
+    /* SEAGAP Brand */
+    --primary: 174 72% 40%;
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 174 72% 30%;
+    --primary-tint: 174 60% 94%;
+
+    --accent: 0 90% 68%;
+    --accent-foreground: 0 0% 100%;
+    --accent-dark: 0 90% 55%;
+
+    --reward: 37 100% 57%;
+    --reward-foreground: 0 0% 100%;
+    --reward-dark: 37 100% 44%;
+    --reward-tint: 37 100% 94%;
+
+    --secondary: 220 15% 96%;
+    --secondary-foreground: 220 20% 30%;
+
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 10% 55%;
+
+    --success: 142 60% 42%;
+    --success-dark: 142 60% 30%;
+    --success-tint: 142 60% 93%;
+    --success-foreground: 0 0% 100%;
+
+    --error: 0 72% 55%;
+    --error-dark: 0 72% 42%;
+    --error-tint: 0 72% 95%;
+    --error-foreground: 0 0% 100%;
+
+    --warning: 37 100% 57%;
+    --warning-tint: 37 100% 94%;
+
+    --accent-comp: 262 70% 62%;
+    --accent-comp-tint: 262 70% 95%;
+
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 174 72% 40%;
+    --radius: 1rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 220 20% 15%;
+    --sidebar-primary: 174 72% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 174 60% 94%;
+    --sidebar-accent-foreground: 174 72% 30%;
+    --sidebar-border: 220 15% 88%;
+    --sidebar-ring: 174 72% 40%;
+
+    --chart-1: 174 72% 40%;
+    --chart-2: 0 90% 68%;
+    --chart-3: 37 100% 57%;
+    --chart-4: 262 70% 62%;
+    --chart-5: 142 60% 42%;
+  }
+
+  .dark {
+    --background: 220 20% 10%;
+    --foreground: 0 0% 98%;
+    --card: 220 20% 14%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 20% 14%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 174 72% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 15% 20%;
+    --secondary-foreground: 0 0% 90%;
+    --muted: 220 15% 20%;
+    --muted-foreground: 220 10% 60%;
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
+    --ring: 174 72% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Nunito', sans-serif;
+  }
+}
+
+@layer utilities {
+  .shadow-3d-primary {
+    box-shadow: 0 5px 0 0 hsl(var(--primary-dark));
+  }
+  .shadow-3d-accent {
+    box-shadow: 0 5px 0 0 hsl(var(--accent-dark));
+  }
+  .shadow-3d-reward {
+    box-shadow: 0 5px 0 0 hsl(var(--reward-dark));
+  }
+  .shadow-3d-success {
+    box-shadow: 0 5px 0 0 hsl(var(--success-dark));
+  }
+  .shadow-3d-error {
+    box-shadow: 0 5px 0 0 hsl(var(--error-dark));
+  }
+  .shadow-3d-gray {
+    box-shadow: 0 5px 0 0 #c0c0c0;
+  }
+  .press-3d {
+    transition: box-shadow 80ms ease, transform 80ms ease;
+  }
+  .press-3d:active {
+    box-shadow: none !important;
+    transform: translateY(5px);
+  }
+  .progress-gloss::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 4px;
+    right: 4px;
+    height: 4px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 2px;
+  }
+}
+
+@keyframes mascot-wave {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-15deg) scale(1.05); }
+  40% { transform: rotate(10deg) scale(1.05); }
+  60% { transform: rotate(-8deg); }
+  80% { transform: rotate(5deg); }
+}
+@keyframes mascot-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-20px) scale(1.1); }
+  60% { transform: translateY(-10px) scale(1.05); }
+}
+@keyframes mascot-shake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-8px) rotate(-3deg); }
+  30% { transform: translateX(8px) rotate(3deg); }
+  45% { transform: translateX(-6px) rotate(-2deg); }
+  60% { transform: translateX(6px) rotate(2deg); }
+  75% { transform: translateX(-3px); }
+}
+@keyframes mascot-think {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(-5deg); }
+}
+@keyframes mascot-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+@keyframes mascot-sleep {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(6px) rotate(3deg); }
+}
+@keyframes mascot-urgent {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.1) rotate(-5deg); }
+  75% { transform: scale(1.1) rotate(5deg); }
+}
+@keyframes streak-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+@keyframes xp-float {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-40px); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes confetti-fall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+@keyframes ring-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.25); opacity: 0; }
+}
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes count-up-pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-mascot-wave { animation: mascot-wave 1.2s ease-in-out infinite; }
+.animate-mascot-bounce { animation: mascot-bounce 600ms ease-in-out infinite; }
+.animate-mascot-shake { animation: mascot-shake 600ms ease-in-out; }
+.animate-mascot-think { animation: mascot-think 2s ease-in-out infinite; }
+.animate-mascot-pulse { animation: mascot-pulse 2s ease-in-out infinite; }
+.animate-mascot-sleep { animation: mascot-sleep 3s ease-in-out infinite; }
+.animate-mascot-urgent { animation: mascot-urgent 0.4s ease-in-out infinite; }
+.animate-streak-pulse { animation: streak-pulse 2s ease-in-out infinite; }
+.animate-xp-float { animation: xp-float 1s ease-out forwards; }
+.animate-ring-pulse { animation: ring-pulse 2s ease-out infinite; }
+.animate-slide-up { animation: slide-up 300ms cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.animate-count-up { animation: count-up-pop 500ms ease-out forwards; }
+.shimmer-bg {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
