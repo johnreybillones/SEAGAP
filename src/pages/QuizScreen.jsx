@@ -185,7 +185,9 @@ export default function QuizScreen() {
         <div className="fixed inset-0 z-50 flex items-end prototype-fixed-layer prototype-layer-rounded">
           <div className="absolute inset-0 bg-black/50" onClick={() => setShowExit(false)} />
           <div className="relative bg-card rounded-t-3xl p-6 w-full space-y-4 animate-slide-up">
-            <Mascot emotion="urgent" size="medium" className="mx-auto" />
+            <div className="flex justify-center">
+              <Mascot emotion="urgent" size="medium" />
+            </div>
             <div className="text-center">
               <h3 className="text-xl font-black">Leave the quiz?</h3>
               <p className="text-muted-foreground text-sm font-semibold mt-1">Your progress will be lost</p>

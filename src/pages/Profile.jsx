@@ -45,10 +45,10 @@ export default function Profile() {
   const heatColors = ["bg-border", "bg-primary/30", "bg-primary/60", "bg-primary"];
 
   const STAT_ROWS = [
-    { icon: "🔥", label: "Streak", value: "7 days" },
+    { icon: "🔥", label: "Streak", value: "7" },
     { icon: "⭐", label: "Total XP", value: "8,850" },
     { icon: "🏆", label: "Rank", value: "#6" },
-    { icon: "📚", label: "Courses Done", value: "3" },
+    { icon: "📚", label: "Courses", value: "3" },
   ];
 
   return (
@@ -82,10 +82,10 @@ export default function Profile() {
         {/* Stats row */}
         <div className="grid grid-cols-4 gap-2">
           {STAT_ROWS.map(s => (
-            <div key={s.label} className="bg-card border-2 border-border rounded-2xl p-3 flex flex-col items-center gap-1">
-              <span className="text-xl">{s.icon}</span>
-              <span className="text-base font-black">{s.value}</span>
-              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide text-center leading-tight">{s.label}</span>
+            <div key={s.label} className="bg-card border-2 border-border rounded-2xl p-3 flex flex-col items-center gap-1 min-w-0">
+              <span className="text-xl leading-none">{s.icon}</span>
+              <span className="text-l font-black leading-none whitespace-nowrap tabular-nums">{s.value}</span>
+              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide whitespace-nowrap text-center leading-tight">{s.label}</span>
             </div>
           ))}
         </div>

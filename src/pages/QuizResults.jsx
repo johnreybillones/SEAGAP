@@ -34,7 +34,7 @@ export default function QuizResults() {
   ];
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-6 relative overflow-hidden font-nunito">
+    <div className="min-h-screen bg-background flex flex-col items-center px-6 pb-56 relative overflow-x-hidden overflow-y-auto font-nunito">
       {/* Confetti */}
       {passed && [...Array(25)].map((_, i) => (
         <div key={i} className="absolute top-0 w-2 h-4 rounded-sm"
@@ -100,7 +100,7 @@ export default function QuizResults() {
         )}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 px-6 pb-12 pt-4 bg-gradient-to-t from-background via-background to-transparent space-y-3">
+      <div className="fixed bottom-0 px-6 pb-12 pt-4 bg-gradient-to-t from-background via-background to-transparent space-y-3 prototype-fixed-bottom-sheet prototype-layer-rounded">
         <Button3D fullWidth variant="secondary" size="md" onClick={() => navigate("/quiz/demo")}>
           Review Answers
         </Button3D>

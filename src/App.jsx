@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -18,23 +18,29 @@ import QuizResults from './pages/QuizResults';
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
 
-const AppRoutes = () => (
-  <Routes>
-    <Route path="/splash" element={<Splash />} />
-    <Route path="/welcome" element={<Welcome />} />
-    <Route path="/login" element={<Welcome />} />
-    <Route path="/register" element={<Register />} />
-    <Route path="/confirmation" element={<Confirmation />} />
-    <Route path="/" element={<Dashboard />} />
-    <Route path="/courses" element={<Courses />} />
-    <Route path="/course/:id" element={<CoursePage />} />
-    <Route path="/quiz/:id" element={<QuizScreen />} />
-    <Route path="/quiz-results" element={<QuizResults />} />
-    <Route path="/leaderboard" element={<Leaderboard />} />
-    <Route path="/profile" element={<Profile />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const AppRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <div key={location.pathname} className="tab-switch-enter">
+      <Routes location={location}>
+        <Route path="/splash" element={<Splash />} />
+        <Route path="/welcome" element={<Welcome />} />
+        <Route path="/login" element={<Welcome />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/confirmation" element={<Confirmation />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/course/:id" element={<CoursePage />} />
+        <Route path="/quiz/:id" element={<QuizScreen />} />
+        <Route path="/quiz-results" element={<QuizResults />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </div>
+  );
+};
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
