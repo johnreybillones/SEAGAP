@@ -70,7 +70,8 @@ export default function Leaderboard() {
           const isDemotion = i >= rest.length - 3;
           return (
             <div key={p.rank}
-              className={`flex items-center gap-3 p-3 rounded-2xl border-2 transition-all ${p.isUser ? "bg-primary-tint border-primary" : isDemotion ? "bg-error-tint/30 border-error/20" : "bg-card border-border"}`}>
+              style={{ "--lb-enter-index": i }}
+              className={`leaderboard-row leaderboard-row--bottom flex items-center gap-3 p-3 rounded-2xl border-2 transition-all ${p.isUser ? "bg-primary-tint border-primary" : isDemotion ? "bg-error-tint/30 border-error/20" : "bg-card border-border"}`}>
               <span className="text-sm font-black w-7 text-center text-muted-foreground">#{p.rank}</span>
               <div className="w-9 h-9 rounded-full bg-primary-tint border-2 border-primary flex items-center justify-center text-sm font-black">
                 {p.name[0]}

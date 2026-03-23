@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const FAB_POSITION_KEY = "seagap.assistiveFab.position";
 
 export default function AssistiveButton(props) {
-  const { onAITutor, onLanguage } = props || {};
+  const { onAITutor, onLanguage, hideAITutor = false } = props || {};
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [side, setSide] = useState("right");
@@ -29,10 +29,17 @@ export default function AssistiveButton(props) {
   const TOP_LIMIT = 88;
   const BOTTOM_LIMIT = 116;
 
-  const actions = useMemo(() => [
-    { icon: Bot, label: "AI Tutor", color: "bg-primary text-primary-foreground shadow-3d-primary", onClick: onAITutor },
-    { icon: Languages, label: "Language", color: "bg-accent text-accent-foreground shadow-3d-accent", onClick: onLanguage },
-  ], [onAITutor, onLanguage]);
+  const actions = useMemo(() => {
+    const baseActions = [
+      { icon: Languages, label: "Language", color: "bg-accent text-accent-foreground shadow-3d-accent", onClick: onLanguage },
+    ];
+
+    if (!hideAITutor) {
+      baseActions.unshift({ icon: Bot, label: "AI Tutor", color: "bg-primary text-primary-foreground shadow-3d-primary", onClick: onAITutor });
+    }
+
+    return baseActions;
+  }, [hideAITutor, onAITutor, onLanguage]);
 
   const getBounds = () => {
     const prototypeDevice = document.querySelector(".mobile-prototype .prototype-device");
@@ -223,7 +230,7 @@ export default function AssistiveButton(props) {
 
   return (
     <div
-      className="fixed z-50"
+      className="fixed z-50 prototype-fixed-fab"
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,

@@ -5,10 +5,11 @@ export default function ProgressBar({ value = 0, max = 100, className = "", vari
   const fillColor = variant === "error" ? "bg-error" : "bg-primary";
 
   return (
-    <div className={cn("relative h-4 rounded-full bg-[#E5E5E5] overflow-hidden", className)}>
+    <div className={cn("relative h-4 rounded-full bg-[#E5E5E5] overflow-hidden progress-enter-left", className)}>
       <div
-        className={cn("h-full rounded-full transition-all duration-500 relative progress-gloss", fillColor)}
-        style={{ width: `${pct}%` }}
+        key={`${pct}-${variant}`}
+        className={cn("h-full rounded-full relative progress-gloss progress-fill-grow", fillColor)}
+        style={{ "--progress-target": `${pct}%` }}
       />
     </div>
   );

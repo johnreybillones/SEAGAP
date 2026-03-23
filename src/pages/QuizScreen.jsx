@@ -198,7 +198,7 @@ export default function QuizScreen() {
         </div>
       )}
 
-      <AssistiveButton />
+      <AssistiveButton hideAITutor />
     </div>
   );
 }
