@@ -85,7 +85,7 @@ export default function QuizScreen() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col font-nunito relative overflow-hidden">
+    <div className="quiz-screen-root min-h-screen bg-background flex flex-col font-nunito relative overflow-hidden">
       {/* Top HUD */}
       <div className="flex items-center gap-3 px-4 pt-14 pb-3">
         <button onClick={() => setShowExit(true)} className="p-2 rounded-xl hover:bg-muted" aria-label="Exit quiz">
@@ -103,7 +103,7 @@ export default function QuizScreen() {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col px-4 gap-5">
+      <div className="flex-1 flex flex-col px-4 gap-4">
         {/* Type label */}
         <p className="text-[11px] font-extrabold uppercase tracking-widest text-muted-foreground">{q.type}</p>
 
@@ -140,16 +140,6 @@ export default function QuizScreen() {
           })}
         </div>
 
-        {/* Social actions */}
-        <div className="flex gap-2">
-          <button className="flex-1 h-10 rounded-xl border-2 border-primary text-primary text-xs font-extrabold press-3d active:translate-y-[2px]">
-            🤝 Help Teammate
-          </button>
-          <button className="flex-1 h-10 rounded-xl border-2 border-error text-error text-xs font-extrabold press-3d active:translate-y-[2px]">
-            💣 Sabotage
-          </button>
-        </div>
-
         {/* Live leaderboard strip */}
         <div className="flex items-center gap-2 bg-card border border-border rounded-xl px-3 py-2">
           <span className="text-[10px] font-extrabold text-muted-foreground uppercase tracking-wide">LIVE</span>
@@ -163,7 +153,7 @@ export default function QuizScreen() {
       </div>
 
       {/* Submit button */}
-      <div className="px-4 pb-10 pt-4">
+      <div className="px-4 pb-8 pt-3">
         <Button3D fullWidth disabled={selected === null && !submitted} onClick={handleSubmit} variant={submitted ? "secondary" : "primary"}>
           {submitted ? "Submitted" : "Check Answer"}
         </Button3D>
@@ -171,8 +161,8 @@ export default function QuizScreen() {
 
       {/* Feedback sheet */}
       {showSheet && (
-        <div className="fixed inset-x-0 bottom-0 z-50 animate-slide-up">
-          <div className={cn("rounded-t-3xl p-6 space-y-4", isCorrect ? "bg-success-tint border-t-4 border-success" : "bg-error-tint border-t-4 border-error")}>
+        <div className="fixed inset-0 z-50 prototype-fixed-layer prototype-layer-rounded pointer-events-none">
+          <div className={cn("absolute left-0 right-0 bottom-0 rounded-t-3xl p-6 space-y-4 animate-slide-up pointer-events-auto", isCorrect ? "bg-success-tint border-t-4 border-success" : "bg-error-tint border-t-4 border-error")}>
             <div className="flex items-center gap-3">
               <Mascot emotion={isCorrect ? "celebrating" : "surprised"} size="small" />
               <div>
@@ -192,7 +182,7 @@ export default function QuizScreen() {
 
       {/* Exit confirmation */}
       {showExit && (
-        <div className="fixed inset-0 z-50 flex items-end">
+        <div className="fixed inset-0 z-50 flex items-end prototype-fixed-layer prototype-layer-rounded">
           <div className="absolute inset-0 bg-black/50" onClick={() => setShowExit(false)} />
           <div className="relative bg-card rounded-t-3xl p-6 w-full space-y-4 animate-slide-up">
             <Mascot emotion="urgent" size="medium" className="mx-auto" />

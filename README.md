@@ -40,6 +40,23 @@ VITE_DEMO_MODE=false
 
 If `VITE_DEMO_MODE` is not set (or set to any value other than `false`), the app runs in demo mode.
 
+**Mobile prototype viewport mode**
+
+The app supports an optional framed mobile prototype mode for desktop previews.
+
+Recommended baseline for this project (iOS-first):
+
+```
+VITE_MOBILE_FRAME=true
+VITE_MOBILE_FRAME_WIDTH=390
+VITE_MOBILE_FRAME_HEIGHT=844
+```
+
+- `VITE_MOBILE_FRAME=true` (default behavior unless explicitly set to `false`) renders the app in a centered mobile frame on desktop.
+- `VITE_MOBILE_FRAME_WIDTH` controls the prototype width in pixels (e.g. `375`, `390`, `428`).
+- `VITE_MOBILE_FRAME_HEIGHT` controls the prototype height in pixels (e.g. `812`, `844`, `926`).
+- On real mobile widths, the app still renders edge-to-edge.
+
 **Publish your changes**
 
 Open [Base44.com](http://Base44.com) and click on Publish.

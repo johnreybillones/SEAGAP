@@ -42,7 +42,7 @@ const AuthenticatedApp = () => {
   // Show loading spinner while checking app public settings or auth
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center">
+      <div className="fixed inset-0 flex items-center justify-center prototype-fixed-layer prototype-layer-rounded">
         <div className="w-8 h-8 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
       </div>
     );
@@ -65,8 +65,13 @@ const AuthenticatedApp = () => {
 
 
 function App() {
+  const mobileFrameEnabled = import.meta.env.VITE_MOBILE_FRAME !== 'false';
+  const configuredFrameWidth = Number.parseInt(import.meta.env.VITE_MOBILE_FRAME_WIDTH ?? '360', 10);
+  const configuredFrameHeight = Number.parseInt(import.meta.env.VITE_MOBILE_FRAME_HEIGHT ?? '700', 10);
+  const mobileFrameWidth = Number.isFinite(configuredFrameWidth) && configuredFrameWidth > 0 ? configuredFrameWidth : 390;
+  const mobileFrameHeight = Number.isFinite(configuredFrameHeight) && configuredFrameHeight > 0 ? configuredFrameHeight : 844;
 
-  return (
+  const appTree = (
     <QueryClientProvider client={queryClientInstance}>
       <Router>
         {isDemoMode ? (
@@ -79,7 +84,20 @@ function App() {
       </Router>
       <Toaster />
     </QueryClientProvider>
-  )
+  );
+
+  if (!mobileFrameEnabled) {
+    return appTree;
+  }
+
+  return (
+    <div
+      className="mobile-prototype"
+      style={{ '--prototype-width': `${mobileFrameWidth}px`, '--prototype-height': `${mobileFrameHeight}px` }}
+    >
+      <div className="prototype-device">{appTree}</div>
+    </div>
+  );
 }
 
 export default App

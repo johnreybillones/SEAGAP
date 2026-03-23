@@ -14,7 +14,7 @@ export default function AssistiveButton(props) {
   ];
 
   return (
-    <div className="fixed bottom-24 right-4 z-50 flex flex-col items-end gap-2">
+    <div className="fixed bottom-24 right-4 z-50 flex flex-col items-end gap-2 prototype-fixed-fab">
       {open && (
         <div className="flex flex-col items-end gap-2 animate-slide-up">
           {actions.map(({ icon: Icon, label, color, onClick }) => (
