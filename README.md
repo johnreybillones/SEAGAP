@@ -28,6 +28,18 @@ VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
 
 Run the app: `npm run dev`
 
+**Frontend-only demo mode (no backend/database needed)**
+
+The project now supports a demo mode that bypasses backend auth/data gates and uses local mock data.
+
+By default, demo mode is enabled. To force backend mode, set:
+
+```
+VITE_DEMO_MODE=false
+```
+
+If `VITE_DEMO_MODE` is not set (or set to any value other than `false`), the app runs in demo mode.
+
 **Publish your changes**
 
 Open [Base44.com](http://Base44.com) and click on Publish.

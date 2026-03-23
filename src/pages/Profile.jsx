@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
+import { isDemoMode } from "@/lib/demo-mode";
+import { demoUser } from "@/lib/demo-data";
 import { ChevronLeft, Edit2, Settings } from "lucide-react";
-import Mascot from "../components/Mascot";
 import Button3D from "../components/Button3D";
-import StatPill from "../components/StatPill";
 import BottomTabBar from "../components/BottomTabBar";
 import AssistiveButton from "../components/AssistiveButton";
 
@@ -24,11 +24,21 @@ export default function Profile() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    base44.auth.me().then(setUser);
+    if (isDemoMode) {
+      setUser(demoUser);
+      return;
+    }
+
+    base44.auth.me()
+      .then(setUser)
+      .catch(error => {
+        console.error("Profile user load failed, using demo user:", error);
+        setUser(demoUser);
+      });
   }, []);
 
   // Generate 7-week heatmap
-  const heatmap = Array.from({ length: 49 }, (_, i) => {
+  const heatmap = Array.from({ length: 49 }, () => {
     const rand = Math.random();
     return rand > 0.5 ? (rand > 0.8 ? 3 : rand > 0.65 ? 2 : 1) : 0;
   });
@@ -112,10 +122,21 @@ export default function Profile() {
 
         {/* Buttons */}
         <div className="space-y-3">
-          <Button3D fullWidth variant="secondary" size="md">
+          <Button3D fullWidth variant="secondary" size="md" onClick={() => {}}>
             <Edit2 size={16} /> Edit Profile
           </Button3D>
-          <Button3D fullWidth variant="ghost" size="sm" onClick={() => base44.auth.logout()}>
+          <Button3D
+            fullWidth
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              if (isDemoMode) {
+                navigate("/welcome");
+                return;
+              }
+              base44.auth.logout();
+            }}
+          >
             Sign Out
           </Button3D>
         </div>

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
+import { isDemoMode } from "@/lib/demo-mode";
+import { demoUser, demoCourses } from "@/lib/demo-data";
 import { Bell, ChevronRight } from "lucide-react";
-import Mascot from "../components/Mascot";
 import Button3D from "../components/Button3D";
 import StatPill from "../components/StatPill";
 import ProgressBar from "../components/ProgressBar";
@@ -35,10 +36,24 @@ export default function Dashboard() {
 
   useEffect(() => {
     const load = async () => {
-      const [u, c] = await Promise.all([base44.auth.me(), base44.entities.Course.list()]);
-      setUser(u);
-      setCourses(c);
-      setLoading(false);
+      if (isDemoMode) {
+        setUser(demoUser);
+        setCourses(demoCourses);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const [u, c] = await Promise.all([base44.auth.me(), base44.entities.Course.list()]);
+        setUser(u || demoUser);
+        setCourses(Array.isArray(c) && c.length > 0 ? c : demoCourses);
+      } catch (error) {
+        console.error("Dashboard data load failed, using demo data:", error);
+        setUser(demoUser);
+        setCourses(demoCourses);
+      } finally {
+        setLoading(false);
+      }
     };
     load();
   }, []);
@@ -209,8 +224,8 @@ export default function Dashboard() {
 }
 
 const MOCK_COURSES = [
-  { title: "Mathematics Grade 10", difficulty: "Intermediate" },
-  { title: "Science Fundamentals", difficulty: "Beginner" },
-  { title: "English Literature", difficulty: "Advanced" },
-  { title: "World History", difficulty: "Beginner" },
+  { id: "1", title: "Mathematics Grade 10", difficulty: "Intermediate" },
+  { id: "2", title: "Science Fundamentals", difficulty: "Beginner" },
+  { id: "3", title: "English Literature", difficulty: "Advanced" },
+  { id: "4", title: "World History", difficulty: "Beginner" },
 ];

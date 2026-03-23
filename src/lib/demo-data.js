@@ -1,0 +1,76 @@
+export const demoUser = {
+  id: "demo-user",
+  full_name: "Demo Learner",
+  role: "student",
+};
+
+export const demoCourses = [
+  {
+    id: "1",
+    title: "Mathematics Grade 10",
+    subject: "Math",
+    difficulty: "Intermediate",
+    instructor_name: "Ms. Santos",
+    emoji: "📐",
+    progress: 45,
+    total_xp: 500,
+  },
+  {
+    id: "2",
+    title: "Biology Fundamentals",
+    subject: "Science",
+    difficulty: "Beginner",
+    instructor_name: "Mr. Cruz",
+    emoji: "🔬",
+    progress: 20,
+    total_xp: 500,
+  },
+  {
+    id: "3",
+    title: "English Literature",
+    subject: "English",
+    difficulty: "Advanced",
+    instructor_name: "Ms. Garcia",
+    emoji: "📚",
+    progress: 80,
+    total_xp: 500,
+  },
+  {
+    id: "4",
+    title: "World History",
+    subject: "History",
+    difficulty: "Beginner",
+    instructor_name: "Mr. Reyes",
+    emoji: "🌍",
+    progress: 10,
+    total_xp: 500,
+  },
+  {
+    id: "5",
+    title: "Physics Essentials",
+    subject: "Science",
+    difficulty: "Advanced",
+    instructor_name: "Dr. Tan",
+    emoji: "⚛️",
+    progress: 60,
+    total_xp: 500,
+  },
+  {
+    id: "6",
+    title: "Creative Writing",
+    subject: "English",
+    difficulty: "Intermediate",
+    instructor_name: "Ms. Lim",
+    emoji: "✍️",
+    progress: 35,
+    total_xp: 500,
+  },
+];
+
+export const demoModules = [
+  { id: "m1", title: "Introduction", xp_reward: 100 },
+  { id: "m2", title: "Core Concepts", xp_reward: 150 },
+  { id: "m3", title: "Applied Problems", xp_reward: 200 },
+  { id: "m4", title: "Advanced Theory", xp_reward: 250 },
+  { id: "m5", title: "Final Challenge", xp_reward: 300 },
+];

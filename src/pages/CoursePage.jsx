@@ -1,22 +1,17 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
+import { isDemoMode } from "@/lib/demo-mode";
+import { demoCourses, demoModules } from "@/lib/demo-data";
 import { ChevronLeft, X } from "lucide-react";
 import ModuleNode from "../components/ModuleNode";
 import Button3D from "../components/Button3D";
 import StatPill from "../components/StatPill";
 import ProgressBar from "../components/ProgressBar";
 import AssistiveButton from "../components/AssistiveButton";
-import Mascot from "../components/Mascot";
 
 const TABS = ["MODULES", "QUIZZES", "ASSIGNMENTS", "STUDENTS"];
-const MOCK_MODULES = [
-  { id: "m1", title: "Introduction", xp_reward: 100 },
-  { id: "m2", title: "Core Concepts", xp_reward: 150 },
-  { id: "m3", title: "Applied Problems", xp_reward: 200 },
-  { id: "m4", title: "Advanced Theory", xp_reward: 250 },
-  { id: "m5", title: "Final Challenge", xp_reward: 300 },
-];
+const MOCK_MODULES = demoModules;
 const MODULE_STATUSES = ["complete", "complete", "active", "locked", "legendary"];
 const MODULE_STARS = [3, 2, 0, 0, 0];
 
@@ -30,12 +25,31 @@ export default function CoursePage() {
 
   useEffect(() => {
     const load = async () => {
-      const [courses, mods] = await Promise.all([
-        base44.entities.Course.list(),
-        base44.entities.Module.filter({ course_id: id }),
-      ]);
-      setCourse(courses.find(c => c.id === id) || { title: "Mathematics Grade 10", instructor_name: "Ms. Santos", description: "Master the fundamentals of Grade 10 Math" });
-      setModules(mods.length > 0 ? mods : MOCK_MODULES);
+      const fallbackCourse = demoCourses.find(c => c.id === id) || {
+        id,
+        title: "Mathematics Grade 10",
+        instructor_name: "Ms. Santos",
+        description: "Master the fundamentals of Grade 10 Math"
+      };
+
+      if (isDemoMode) {
+        setCourse(fallbackCourse);
+        setModules(MOCK_MODULES);
+        return;
+      }
+
+      try {
+        const [courses, mods] = await Promise.all([
+          base44.entities.Course.list(),
+          base44.entities.Module.filter({ course_id: id }),
+        ]);
+        setCourse(courses.find(c => c.id === id) || fallbackCourse);
+        setModules(mods.length > 0 ? mods : MOCK_MODULES);
+      } catch (error) {
+        console.error("Course page data load failed, using demo data:", error);
+        setCourse(fallbackCourse);
+        setModules(MOCK_MODULES);
+      }
     };
     load();
   }, [id]);

@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
+import { isDemoMode } from '@/lib/demo-mode';
 import Splash from './pages/Splash';
 import Welcome from './pages/Welcome.jsx';
 import Register from './pages/Register';
@@ -16,6 +17,24 @@ import QuizScreen from './pages/QuizScreen';
 import QuizResults from './pages/QuizResults';
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
+
+const AppRoutes = () => (
+  <Routes>
+    <Route path="/splash" element={<Splash />} />
+    <Route path="/welcome" element={<Welcome />} />
+    <Route path="/login" element={<Welcome />} />
+    <Route path="/register" element={<Register />} />
+    <Route path="/confirmation" element={<Confirmation />} />
+    <Route path="/" element={<Dashboard />} />
+    <Route path="/courses" element={<Courses />} />
+    <Route path="/course/:id" element={<CoursePage />} />
+    <Route path="/quiz/:id" element={<QuizScreen />} />
+    <Route path="/quiz-results" element={<QuizResults />} />
+    <Route path="/leaderboard" element={<Leaderboard />} />
+    <Route path="/profile" element={<Profile />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
+);
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -41,36 +60,25 @@ const AuthenticatedApp = () => {
   }
 
   // Render the main app
-  return (
-    <Routes>
-      <Route path="/splash" element={<Splash />} />
-      <Route path="/welcome" element={<Welcome />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/confirmation" element={<Confirmation />} />
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/courses" element={<Courses />} />
-      <Route path="/course/:id" element={<CoursePage />} />
-      <Route path="/quiz/:id" element={<QuizScreen />} />
-      <Route path="/quiz-results" element={<QuizResults />} />
-      <Route path="/leaderboard" element={<Leaderboard />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
-  );
+  return <AppRoutes />;
 };
 
 
 function App() {
 
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClientInstance}>
-        <Router>
-          <AuthenticatedApp />
-        </Router>
-        <Toaster />
-      </QueryClientProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClientInstance}>
+      <Router>
+        {isDemoMode ? (
+          <AppRoutes />
+        ) : (
+          <AuthProvider>
+            <AuthenticatedApp />
+          </AuthProvider>
+        )}
+      </Router>
+      <Toaster />
+    </QueryClientProvider>
   )
 }
 

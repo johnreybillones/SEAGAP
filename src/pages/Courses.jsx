@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
+import { isDemoMode } from "@/lib/demo-mode";
+import { demoCourses } from "@/lib/demo-data";
 import { Search } from "lucide-react";
 import ProgressBar from "../components/ProgressBar";
 import BottomTabBar from "../components/BottomTabBar";
@@ -9,14 +11,7 @@ import SkeletonCard from "../components/SkeletonCard";
 import StatPill from "../components/StatPill";
 
 const SUBJECTS = ["All", "Math", "Science", "English", "History", "Art"];
-const MOCK = [
-  { id: "1", title: "Mathematics Grade 10", subject: "Math", difficulty: "Intermediate", instructor_name: "Ms. Santos", emoji: "📐", progress: 45 },
-  { id: "2", title: "Biology Fundamentals", subject: "Science", difficulty: "Beginner", instructor_name: "Mr. Cruz", emoji: "🔬", progress: 20 },
-  { id: "3", title: "English Literature", subject: "English", difficulty: "Advanced", instructor_name: "Ms. Garcia", emoji: "📚", progress: 80 },
-  { id: "4", title: "World History", subject: "History", difficulty: "Beginner", instructor_name: "Mr. Reyes", emoji: "🌍", progress: 10 },
-  { id: "5", title: "Physics Essentials", subject: "Science", difficulty: "Advanced", instructor_name: "Dr. Tan", emoji: "⚛️", progress: 60 },
-  { id: "6", title: "Creative Writing", subject: "English", difficulty: "Intermediate", instructor_name: "Ms. Lim", emoji: "✍️", progress: 35 },
-];
+const MOCK = demoCourses;
 
 export default function Courses() {
   const navigate = useNavigate();
@@ -26,10 +21,23 @@ export default function Courses() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    base44.entities.Course.list().then(c => {
-      setCourses(c.length > 0 ? c : MOCK);
+    if (isDemoMode) {
+      setCourses(MOCK);
       setLoading(false);
-    });
+      return;
+    }
+
+    base44.entities.Course.list()
+      .then(c => {
+        setCourses(c.length > 0 ? c : MOCK);
+      })
+      .catch(error => {
+        console.error("Courses data load failed, using demo data:", error);
+        setCourses(MOCK);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const display = courses.filter(c =>

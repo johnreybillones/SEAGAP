@@ -1,4 +1,4 @@
-const MASCOT_URL = "https://media.base44.com/images/public/69c0fa752ea144a4dcd3cc0e/3a291d5fd_seagapmascot.png";
+const MASCOT_URL = "/mascot.png";
 
 const EMOTION_ANIMATIONS = {
   greeting: "animate-mascot-wave",

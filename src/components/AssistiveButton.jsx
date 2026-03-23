@@ -3,7 +3,8 @@ import { Bot, Languages, Lightbulb, X } from "lucide-react";
 import Mascot from "./Mascot";
 import { cn } from "@/lib/utils";
 
-export default function AssistiveButton({ onAITutor, onHint, onLanguage }) {
+export default function AssistiveButton(props) {
+  const { onAITutor, onHint, onLanguage } = props || {};
   const [open, setOpen] = useState(false);
 
   const actions = [
