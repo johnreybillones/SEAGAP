@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEAGAP Mascot — Expression Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F0F8FF;
+  --card: #FFFFFF;
+  --brand: #2EC4D6;
+  --text: #1A2340;
+  --text-sub: #6B7C9A;
+  --shadow: rgba(30,60,100,0.12);
+  --radius: 24px;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  padding: 48px 32px;
+  background-image:
+    radial-gradient(circle at 10% 10%, rgba(46,196,214,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 90% 90%, rgba(240,180,41,0.07) 0%, transparent 50%);
+}
+
+.page-header { text-align: center; margin-bottom: 56px; }
+.page-header h1 { font-size: 36px; font-weight: 900; color: var(--text); letter-spacing: -0.5px; }
+.page-header h1 span { color: var(--brand); }
+.page-header p { margin-top: 10px; font-size: 15px; font-weight: 600; color: var(--text-sub); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px 20px 20px;
+  display: flex; flex-direction: column; align-items: center;
+  box-shadow: 0 4px 0px rgba(30,60,100,0.10), 0 12px 32px var(--shadow);
+  transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease;
+  cursor: pointer; position: relative; overflow: hidden;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.card:hover { transform: translateY(-6px); box-shadow: 0 10px 0px rgba(30,60,100,0.10), 0 24px 48px var(--shadow); }
+.card:active { transform: translateY(0); box-shadow: 0 4px 0px rgba(30,60,100,0.10), 0 6px 16px var(--shadow); }
+
+.card.greeting::before    { background: #2EC4D6; }
+.card.thinking::before    { background: #7B61FF; }
+.card.celebrating::before { background: #F0B429; }
+.card.surprised::before   { background: #FF6B6B; }
+.card.encouraging::before { background: #34D399; }
+.card.sleeping::before    { background: #94A3B8; }
+.card.urgent::before      { background: #F97316; }
+
+.sprite-wrapper {
+  width: 160px; height: 160px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.sprite-wrapper svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 8px 16px rgba(30,60,100,0.15)); }
+
+.label-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase; padding: 5px 12px; border-radius: 9999px; margin-top: 14px;
+}
+.card.greeting .label-badge    { background:#E0F9FC; color:#0E8FA0; }
+.card.thinking .label-badge    { background:#EEE8FF; color:#5B41CC; }
+.card.celebrating .label-badge { background:#FEF3C7; color:#B07A00; }
+.card.surprised .label-badge   { background:#FFE4E4; color:#C93535; }
+.card.encouraging .label-badge { background:#D1FAE5; color:#059669; }
+.card.sleeping .label-badge    { background:#E2E8F0; color:#475569; }
+.card.urgent .label-badge      { background:#FEE4CE; color:#C24E0A; }
+.card-desc { font-size: 12px; font-weight: 600; color: var(--text-sub); text-align: center; margin-top: 8px; }
+
+/* ── GREETING: sway + real wave ── */
+@keyframes greet-sway {
+  0%,100% { transform: rotate(0deg) translateY(0); }
+  30%     { transform: rotate(2.5deg) translateY(-3px); }
+  70%     { transform: rotate(-2deg) translateY(-1px); }
+}
+@keyframes arm-wave {
+  0%,100% { transform: rotate(0deg); }
+  15%     { transform: rotate(32deg); }
+  35%     { transform: rotate(-22deg); }
+  55%     { transform: rotate(28deg); }
+  75%     { transform: rotate(-12deg); }
+  90%     { transform: rotate(18deg); }
+}
+#greet-body { transform-box:fill-box; transform-origin:60px 110px; animation: greet-sway 1.8s ease-in-out infinite; }
+#wave-arm   { transform-box:fill-box; transform-origin:106px 82px; animation: arm-wave 0.95s ease-in-out infinite; }
+
+/* ── THINKING: tilt + roaming pupils + bubble sequence ── */
+@keyframes think-tilt {
+  0%,100% { transform: rotate(0deg) translateX(0); }
+  28%     { transform: rotate(-7deg) translateX(-4px); }
+  62%     { transform: rotate(5deg) translateX(3px); }
+}
+@keyframes pupil-roam {
+  0%,12%  { transform: translate( 2px,-1px); }
+  30%,45% { transform: translate(-3px, 2px); }
+  63%,75% { transform: translate( 3px,-3px); }
+  90%,100%{ transform: translate( 2px,-1px); }
+}
+@keyframes bub-pop {
+  0%,100% { transform: scale(0.5); opacity:0; }
+  45%,55% { transform: scale(1.1);  opacity:1; }
+}
+#think-body   { transform-box:fill-box; transform-origin:60px 100px; animation: think-tilt 3s cubic-bezier(.45,0,.55,1) infinite; }
+#tpupL        { transform-box:fill-box; transform-origin:46px 73px;  animation: pupil-roam 3s ease-in-out infinite; }
+#tpupR        { transform-box:fill-box; transform-origin:74px 73px;  animation: pupil-roam 3s ease-in-out infinite; }
+.tb1 { transform-box:fill-box; transform-origin:center; animation: bub-pop 2.4s ease-in-out infinite 0s; }
+.tb2 { transform-box:fill-box; transform-origin:center; animation: bub-pop 2.4s ease-in-out infinite 0.7s; }
+.tb3 { transform-box:fill-box; transform-origin:center; animation: bub-pop 2.4s ease-in-out infinite 1.4s; }
+
+/* ── CELEBRATING: squash-stretch jump + arm pumps + cap toss ── */
+@keyframes cel-jump {
+  0%,100% { transform: scaleX(1.06) scaleY(0.90) translateY(7px); }
+  18%     { transform: scaleX(0.91) scaleY(1.13) translateY(-20px); }
+  42%     { transform: scaleX(0.93) scaleY(1.10) translateY(-26px) rotate(6deg); }
+  68%     { transform: scaleX(0.93) scaleY(1.10) translateY(-16px) rotate(-4deg); }
+  88%     { transform: scaleX(1.09) scaleY(0.86) translateY(5px); }
+}
+@keyframes cel-armL {
+  0%,100% { transform: rotate(0deg) translateY(0); }
+  28%     { transform: rotate(-45deg) translateY(-10px); }
+  60%     { transform: rotate(12deg); }
+}
+@keyframes cel-armR {
+  0%,100% { transform: rotate(0deg) translateY(0); }
+  28%     { transform: rotate(45deg) translateY(-10px); }
+  60%     { transform: rotate(-12deg); }
+}
+@keyframes cel-cap {
+  0%,100% { transform: rotate(12deg) translateY(0); }
+  38%     { transform: rotate(24deg) translateY(-10px); }
+  68%     { transform: rotate(8deg) translateY(-4px); }
+}
+@keyframes conf-fall {
+  0%   { transform: translateY(-10px) rotate(0deg);   opacity:1; }
+  100% { transform: translateY(72px)  rotate(380deg); opacity:0; }
+}
+#cel-body  { transform-box:fill-box; transform-origin:60px 115px; animation: cel-jump  1.05s cubic-bezier(.34,1.56,.64,1) infinite; }
+#cel-armL  { transform-box:fill-box; transform-origin:14px 82px;  animation: cel-armL  1.05s ease-in-out infinite; }
+#cel-armR  { transform-box:fill-box; transform-origin:106px 82px; animation: cel-armR  1.05s ease-in-out infinite; }
+#cel-cap   { transform-box:fill-box; transform-origin:60px 34px;  animation: cel-cap   1.05s ease-in-out infinite; }
+.cf  { animation: conf-fall 1.4s ease-in infinite; }
+.cf:nth-child(2) { animation-delay:.22s; }
+.cf:nth-child(3) { animation-delay:.50s; }
+.cf:nth-child(4) { animation-delay:.08s; }
+.cf:nth-child(5) { animation-delay:.72s; }
+
+/* ── SURPRISED: recoil + blink + arms fly ── */
+@keyframes surp-recoil {
+  0%,100% { transform: scale(1) rotate(0deg) translateY(0); }
+  7%      { transform: scaleX(1.2) scaleY(0.82) translateY(9px) rotate(-2deg); }
+  20%     { transform: scaleX(0.86) scaleY(1.18) translateY(-18px) rotate(4deg); }
+  36%     { transform: scaleX(1.05) scaleY(0.95) translateY(-5px) rotate(-1deg); }
+  55%     { transform: scaleX(0.97) scaleY(1.04) translateY(-7px) rotate(2deg); }
+  75%     { transform: scaleX(1.02) scaleY(0.98) translateY(-2px); }
+}
+@keyframes surp-blink {
+  0%,8%,100% { transform: scaleY(1); }
+  4%         { transform: scaleY(0.08); }
+}
+@keyframes surp-armL {
+  0%,100% { transform: rotate(0deg) translateY(0); }
+  14%     { transform: rotate(-28deg) translateY(-12px); }
+  40%     { transform: rotate(12deg); }
+  68%     { transform: rotate(-16deg) translateY(-6px); }
+}
+@keyframes surp-armR {
+  0%,100% { transform: rotate(0deg) translateY(0); }
+  14%     { transform: rotate(28deg) translateY(-12px); }
+  40%     { transform: rotate(-12deg); }
+  68%     { transform: rotate(16deg) translateY(-6px); }
+}
+@keyframes swt-fly-l {
+  0%,58%  { transform: translate(0,0) rotate(0);    opacity:0; }
+  63%     { opacity:1; }
+  100%    { transform: translate(-14px,22px) rotate(-35deg); opacity:0; }
+}
+@keyframes swt-fly-r {
+  0%,55%  { transform: translate(0,0) rotate(0);    opacity:0; }
+  60%     { opacity:1; }
+  100%    { transform: translate(16px,20px) rotate(25deg);  opacity:0; }
+}
+#surp-body { transform-box:fill-box; transform-origin:60px 105px; animation: surp-recoil 2s cubic-bezier(.34,1.56,.64,1) infinite; }
+#surp-armL { transform-box:fill-box; transform-origin:14px 88px;  animation: surp-armL  2s ease-in-out infinite; }
+#surp-armR { transform-box:fill-box; transform-origin:106px 88px; animation: surp-armR  2s ease-in-out infinite; }
+#surp-eyeL { transform-box:fill-box; transform-origin:46px 75px;  animation: surp-blink 2s ease-in-out infinite .28s; }
+#surp-eyeR { transform-box:fill-box; transform-origin:74px 75px;  animation: surp-blink 2s ease-in-out infinite .34s; }
+#swt-l     { animation: swt-fly-l 2s ease-in infinite; }
+#swt-r     { animation: swt-fly-r 2s ease-in infinite .18s; }
+
+/* ── ENCOURAGING: lean + fist pump + heart pulse ── */
+@keyframes enc-lean {
+  0%,100% { transform: rotate(0deg) translateY(0) translateX(0); }
+  38%     { transform: rotate(-6deg) translateX(-4px) translateY(-5px); }
+  75%     { transform: rotate(2deg) translateX(2px); }
+}
+@keyframes enc-fist {
+  0%,100% { transform: rotate(0deg) translateY(0); }
+  28%     { transform: rotate(-22deg) translateY(-18px); }
+  55%     { transform: rotate(6deg) translateY(2px); }
+  78%     { transform: rotate(-12deg) translateY(-9px); }
+}
+@keyframes enc-rarm {
+  0%,100% { transform: rotate(0deg); }
+  50%     { transform: rotate(9deg); }
+}
+@keyframes heart-pulse {
+  0%,100% { transform: scale(1) translateY(0);   opacity:.9; }
+  45%     { transform: scale(1.5) translateY(-8px); opacity:1; }
+  70%     { transform: scale(1.1) translateY(-3px); opacity:.9; }
+}
+#enc-body  { transform-box:fill-box; transform-origin:60px 105px; animation: enc-lean  1.6s ease-in-out infinite; }
+#enc-armL  { transform-box:fill-box; transform-origin:14px 88px;  animation: enc-fist  1.6s ease-in-out infinite; }
+#enc-armR  { transform-box:fill-box; transform-origin:106px 90px; animation: enc-rarm  1.6s ease-in-out infinite; }
+#enc-heart { transform-box:fill-box; transform-origin:22px 60px;  animation: heart-pulse 1.6s ease-in-out infinite; }
+
+/* ── SLEEPING: pendulum sway + head nod + zzz float ── */
+@keyframes sleep-sway {
+  0%,100% { transform: rotate(-4deg) translateX(-3px); }
+  50%     { transform: rotate(4.5deg) translateX(3px); }
+}
+@keyframes sleep-head {
+  0%,100% { transform: rotate(-3deg) translateY(0); }
+  50%     { transform: rotate(5deg) translateY(4px); }
+}
+@keyframes zzz-rise {
+  0%   { transform: translate(0,0) scale(.6); opacity:0; }
+  18%  { opacity:1; }
+  100% { transform: translate(14px,-48px) scale(1.15); opacity:0; }
+}
+#sleep-body { transform-box:fill-box; transform-origin:60px 124px; animation: sleep-sway 3.5s ease-in-out infinite; }
+#sleep-head { transform-box:fill-box; transform-origin:60px 52px;  animation: sleep-head 3.5s ease-in-out infinite; }
+#zzz1 { animation: zzz-rise 2.4s ease-in-out infinite 0s; }
+#zzz2 { animation: zzz-rise 2.4s ease-in-out infinite .8s; }
+#zzz3 { animation: zzz-rise 2.4s ease-in-out infinite 1.6s; }
+
+/* ── URGENT: rapid tremble + eye pulse + sweat spray + excl flash ── */
+@keyframes urg-tremble {
+  0%,100% { transform: translate(0,0) rotate(0); }
+  9%      { transform: translate(-3px,-1px) rotate(-2.5deg); }
+  18%     { transform: translate( 3px, 1px) rotate( 2.5deg); }
+  27%     { transform: translate(-4px, 2px) rotate(-3deg); }
+  36%     { transform: translate( 4px,-2px) rotate( 3deg); }
+  45%     { transform: translate(-2px, 3px) rotate(-1.5deg); }
+  54%     { transform: translate( 2px,-3px) rotate( 2deg); }
+  63%     { transform: translate(-3px, 1px) rotate(-2deg); }
+  72%     { transform: translate( 3px, 2px) rotate( 1.5deg); }
+  81%     { transform: translate(-2px,-2px) rotate(-1deg); }
+  90%     { transform: translate( 1px, 1px) rotate( 1deg); }
+}
+@keyframes urg-epulse {
+  0%,100% { transform: scale(1); }
+  25%,65% { transform: scale(1.18); }
+  45%,85% { transform: scale(0.88); }
+}
+@keyframes urg-swt-l {
+  0%,48%  { transform: translate(0,0); opacity:0; }
+  52%     { opacity:1; }
+  100%    { transform: translate(-18px,26px) rotate(-45deg); opacity:0; }
+}
+@keyframes urg-swt-r {
+  0%,48%  { transform: translate(0,0); opacity:0; }
+  54%     { opacity:1; }
+  100%    { transform: translate(18px,24px) rotate(30deg); opacity:0; }
+}
+@keyframes excl-blink {
+  0%,100% { opacity:1; transform: scale(1) translateY(0); }
+  50%     { opacity:.2; transform: scale(.8) translateY(2px); }
+}
+#urg-all   { transform-box:fill-box; transform-origin:60px 80px; animation: urg-tremble .17s linear infinite; }
+#urg-eyeL  { transform-box:fill-box; transform-origin:46px 75px; animation: urg-epulse .55s ease-in-out infinite; }
+#urg-eyeR  { transform-box:fill-box; transform-origin:74px 75px; animation: urg-epulse .55s ease-in-out infinite .1s; }
+#urg-swt-l { animation: urg-swt-l 1.1s ease-in infinite; }
+#urg-swt-r { animation: urg-swt-r 1.1s ease-in infinite .28s; }
+#excl-l    { animation: excl-blink .48s ease-in-out infinite; }
+#excl-r    { animation: excl-blink .48s ease-in-out infinite .24s; }
+
+.conf-overlay { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>SEAGAP Mascot <span>Expression Library</span></h1>
+  <p>7 Poses · Developer-Ready Sprites · Per Design Spec v3</p>
+</div>
+
+<div class="grid">
+
+  <!-- ═══════════════ 1. GREETING ═══════════════ -->
+  <div class="card greeting">
+    <div class="sprite-wrapper">
+      <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bG1" cx="38%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="55%" stop-color="#CBF0F4"/>
+            <stop offset="100%" stop-color="#72C8D4"/>
+          </radialGradient>
+        </defs>
+        <!-- Body + face sway together -->
+        <g id="greet-body">
+          <ellipse cx="43" cy="122" rx="13" ry="10" fill="#7CC8D4"/>
+          <ellipse cx="77" cy="122" rx="13" ry="10" fill="#7CC8D4"/>
+          <ellipse cx="60" cy="78" rx="48" ry="52" fill="url(#bG1)"/>
+          <ellipse cx="40" cy="55" rx="14" ry="10" fill="rgba(255,255,255,0.55)" transform="rotate(-25,40,55)"/>
+          <!-- Left arm resting -->
+          <line x1="14" y1="88" x2="8" y2="108" stroke="#1A2340" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="8" cy="112" r="6" fill="#1A2340"/>
+          <!-- Eyes -->
+          <circle cx="46" cy="72" r="7" fill="#1A2340"/>
+          <circle cx="74" cy="72" r="7" fill="#1A2340"/>
+          <circle cx="48" cy="70" r="2.5" fill="white"/>
+          <circle cx="76" cy="70" r="2.5" fill="white"/>
+          <!-- Mouth open smile -->
+          <path d="M42 88 Q60 108 78 88" fill="#1A1010"/>
+          <ellipse cx="60" cy="98" rx="10" ry="6" fill="#E05535"/>
+          <path d="M42 88 Q60 104 78 88" stroke="#1A2340" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <!-- Cap -->
+          <rect x="26" y="38" width="68" height="9" rx="4" fill="#1B2340"/>
+          <rect x="30" y="18" width="60" height="22" rx="5" fill="#1B2340"/>
+          <circle cx="60" cy="20" r="3" fill="#2A3560"/>
+          <line x1="79" y1="20" x2="92" y2="38" stroke="#F0B429" stroke-width="3"/>
+          <circle cx="93" cy="40" r="5" fill="#F0B429"/>
+          <line x1="93" y1="45" x2="89" y2="55" stroke="#F0B429" stroke-width="2.5"/>
+          <line x1="93" y1="45" x2="93" y2="56" stroke="#F0B429" stroke-width="2.5"/>
+          <line x1="93" y1="45" x2="97" y2="55" stroke="#F0B429" stroke-width="2.5"/>
+        </g>
+        <!-- Waving arm — pivots at shoulder -->
+        <g id="wave-arm">
+          <path d="M106 82 C116 65 118 50 110 40" stroke="#1A2340" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <ellipse cx="108" cy="36" rx="8" ry="7" fill="#1A2340" transform="rotate(-30,108,36)"/>
+          <line x1="103" y1="30" x2="100" y2="24" stroke="#1A2340" stroke-width="3" stroke-linecap="round"/>
+          <line x1="108" y1="28" x2="107" y2="21" stroke="#1A2340" stroke-width="3" stroke-linecap="round"/>
+          <line x1="113" y1="30" x2="114" y2="23" stroke="#1A2340" stroke-width="3" stroke-linecap="round"/>
+          <line x1="116" y1="35" x2="119" y2="30" stroke="#1A2340" stroke-width="3" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+    <div class="label-badge">👋 Greeting</div>
+    <div class="card-desc">Splash · Welcome · Onboarding</div>
+  </div>
+
+  <!-- ═══════════════ 2. THINKING ═══════════════ -->
+  <div class="card thinking">
+    <div class="sprite-wrapper">
+      <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bG2" cx="42%" cy="32%" r="65%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="55%" stop-color="#CBF0F4"/>
+            <stop offset="100%" stop-color="#72C8D4"/>
+          </radialGradient>
+        </defs>
+        <!-- Thought bubbles outside body -->
+        <circle class="tb1" cx="98" cy="42" r="4"  fill="#EEE8FF"/>
+        <circle class="tb2" cx="108" cy="28" r="7" fill="#EEE8FF"/>
+        <circle class="tb3" cx="116" cy="12" r="10" fill="#EEE8FF"/>
+        <circle cx="112" cy="10" r="2" fill="#7B61FF" opacity=".6" style="transform-box:fill-box;transform-origin:center;animation:bub-pop 2.4s ease-in-out infinite 1.4s;"/>
+        <circle cx="117" cy="8"  r="1.5" fill="#7B61FF" opacity=".6" style="transform-box:fill-box;transform-origin:center;animation:bub-pop 2.4s ease-in-out infinite 1.6s;"/>
+        <!-- Tilting body -->
+        <g id="think-body">
+          <ellipse cx="43" cy="122" rx="13" ry="10" fill="#7CC8D4"/>
+          <ellipse cx="77" cy="122" rx="13" ry="10" fill="#7CC8D4"/>
+          <ellipse cx="60" cy="78" rx="48" ry="52" fill="url(#bG2)"/>
+          <ellipse cx="40" cy="55" rx="14" ry="10" fill="rgba(255,255,255,0.55)" transform="rotate(-25,40,55)"/>
+          <!-- Left arm down -->
+          <line x1="14" y1="88" x2="10" y2="110" stroke="#1A2340" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="10" cy="114" r="5.5" fill="#1A2340"/>
+          <!-- Right arm to chin -->
+          <path d="M106 90 C115 80 118 68 112 62" stroke="#1A2340" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <circle cx="110" cy="60" r="5.5" fill="#1A2340"/>
+          <!-- Eyebrows -->
+          <path d="M39 64 Q46 60 53 63" stroke="#1A2340" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <path d="M67 64 Q74 62 81 65" stroke="#1A2340" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <!-- Eye whites as base -->
+          <circle cx="46" cy="73" r="7" fill="#1A2340"/>
+          <circle cx="74" cy="73" r="7" fill="#1A2340"/>
+          <!-- Roaming pupils -->
+          <circle id="tpupL" cx="48" cy="70" r="2.5" fill="white"/>
+          <circle id="tpupR" cx="76" cy="70" r="2.5" fill="white"/>
+          <!-- Hmm mouth -->
+          <path d="M47 90 Q60 96 73 90" stroke="#1A2340" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Cap -->
+          <rect x="26" y="38" width="68" height="9" rx="4" fill="#1B2340"/>
+          <rect x="30" y="18" width="60" height="22" rx="5" fill="#1B2340"/>
+          <circle cx="60" cy="20" r="3" fill="#2A3560"/>
+          <line x1="79" y1="20" x2="90" y2="36" stroke="#F0B429" stroke-width="3"/>
+          <circle cx="91" cy="38" r="5" fill="#F0B429"/>
+          <line x1="91" y1="43" x2="87" y2="53" stroke="#F0B429" stroke-width="2.5"/>
+          <line x1="91" y1="43" x2="91" y2="54" stroke="#F0B429" stroke-width="2.5"/>
+          <line x1="91" y1="43" x2="95" y2="53" stroke="#F0B429" stroke-width="2.5"/>
+        </g>
+      </svg>
+    </div>
+    <div class="label-badge">🤔 Thinking</div>
+    <div class="card-desc">AI Tutor Panel · Hint State</div>
+  </div>
+
+  <!-- ═══════════════ 3. CELEBRATING ═══════════════ -->
+  <div class="card celebrating">
+    <div class="sprite-wrapper">
+      <!-- Confetti layer -->
+      <div class="conf-overlay">
+        <svg viewBox="0 0 160 160" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+          <circle class="cf" cx="28"  cy="8"  r="5"   fill="#F0B429"/>
+          <rect   class="cf" x="58"  y="5"  width="6" height="6" rx="1" fill="#2EC4D6"/>
+          <circle class="cf" cx="98"  cy="10" r="4"   fill="#FF6B6B"/>
+          <rect   class="cf" x="126" y="6"  width="5" height="5" rx="1" fill="#34D399"/>
+          <circle class="cf" cx="143" cy="14" r="4"   fill="#F0B429"/>
+        </svg>
+      </div>
+      <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bG3" cx="38%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="50%" stop-color="#BFEFF4"/>
+            <stop offset="100%" stop-color="#60C8D8"/>
+          </radialGradient>
+        </defs>
+        <!-- Arms animate independently -->
+        <g id="cel-armL">
+          <path d="M14 82 C4 68 2 52 10 42" stroke="#1A2340" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <ellipse cx="12" cy="38" rx="8" ry="7" fill="#1A2340" transform="rotate(20,12,38)"/>
+          <line x1="7" y1="33" x2="5" y2="26" stroke="#1A2340" stroke-width="3" stroke-linecap="round"/>
+          <line x1="12" y1="31" x2="11" y2="23" stroke="#1A2340" stroke-width="3" stroke-linecap="round"/>
+          <line x1="17" y1="32" x2="18" y2="24" stroke="#1A2340" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <g id="cel-armR">
+          <path d="M106 82 C116 65 118 48 110 38" stroke="#1A2340" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <ellipse cx="108" cy="34" rx="8" ry="7" fill="#1A2340" transform="rotate(-20,108,34)"/>
+          <line x1="103" y1="29" x2="100" y2="22" stroke="#1A2340" stroke-width="3" stroke-linecap="round"/>
+          <line x1="108" y1="27" x2="107" y2="19" stroke="#1A2340" stroke-width="3" stroke-linecap="round"/>
+          <line x1="113" y1="29" x2="114" y2="22" stroke="#1A2340" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <!-- Body squash-stretch -->
+        <g id="cel-body">
+          <ellipse cx="40" cy="124" rx="12" ry="9" fill="#7CC8D4" transform="rotate(10,40,124)"/>
+          <ellipse cx="80" cy="120" rx="12" ry="9" fill="#7CC8D4" transform="rotate(-15,80,120)"/>
+          <ellipse cx="60" cy="78" rx="48" ry="52" fill="url(#bG3)"/>
+          <ellipse cx="39" cy="54" rx="14" ry="10" fill="rgba(255,255,255,0.55)" transform="rotate(-25,39,54)"/>
+          <!-- Happy crescent eyes -->
+          <path d="M39 72 Q46 65 53 72" stroke="#1A2340" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M67 72 Q74 65 81 72" stroke="#1A2340" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <!-- Big open mouth -->
+          <path d="M39 84 Q60 108 81 84" fill="#1A1010"/>
+          <ellipse cx="60" cy="99" rx="13" ry="7" fill="#E05535"/>
+          <path d="M39 84 Q60 104 81 84" stroke="#1A2340" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <text x="20" y="50" font-size="13" fill="#F0B429">★</text>
+          <text x="93" y="48" font-size="9" fill="#F0B429">★</text>
+        </g>
+        <!-- Cap tosses separately -->
+        <g id="cel-cap">
+          <rect x="26" y="36" width="68" height="9" rx="4" fill="#1B2340"/>
+          <rect x="30" y="16" width="60" height="22" rx="5" fill="#1B2340"/>
+          <circle cx="60" cy="18" r="3" fill="#2A3560"/>
+          <line x1="79" y1="18" x2="93" y2="36" stroke="#F0B429" stroke-width="3"/>
+          <circle cx="94" cy="38" r="5" fill="#F0B429"/>
+          <line x1="94" y1="43" x2="90" y2="53" stroke="#F0B429" stroke-width="2.5"/>
+          <line x1="94" y1="43" x2="94" y2="54" stroke="#F0B429" stroke-width="2.5"/>
+          <line x1="94" y1="43" x2="98" y2="53" stroke="#F0B429" stroke-width="2.5"/>
+        </g>
+      </svg>
+    </div>
+    <div class="label-badge">🎉 Celebrating</div>
+    <div class="card-desc">Correct Answer · Lesson Complete</div>
+  </div>
+
+  <!-- ═══════════════ 4. SURPRISED ═══════════════ -->
+  <div class="card surprised">
+    <div class="sprite-wrapper">
+      <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bG4" cx="38%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="55%" stop-color="#CBF0F4"/>
+            <stop offset="100%" stop-color="#72C8D4"/>
+          </radialGradient>
+        </defs>
+        <!-- Arms fly independently -->
+        <g id="surp-armL">
+          <path d="M12 88 C4 74 0 58 8 46" stroke="#1A2340" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <circle cx="9" cy="43" r="6" fill="#1A2340"/>
+        </g>
+        <g id="surp-armR">
+          <path d="M108 88 C116 72 120 56 114 44" stroke="#1A2340" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <circle cx="113" cy="41" r="6" fill="#1A2340"/>
+        </g>
+        <!-- Sweat drops -->
+        <g id="swt-l">
+          <path d="M28 68 Q26 75 30 77 Q34 75 32 68 Q30 64 28 68Z" fill="#2EC4D6" opacity=".8"/>
+        </g>
+        <g id="swt-r">
+          <path d="M90 66 Q88 72 92 74 Q96 72 94 66 Q92 62 90 66Z" fill="#2EC4D6" opacity=".7"/>
+        </g>
+        <!-- Body recoil -->
+        <g id="surp-body">
+          <ellipse cx="43" cy="123" rx="13" ry="10" fill="#7CC8D4"/>
+          <ellipse cx="77" cy="123" rx="13" ry="10" fill="#7CC8D4"/>
+          <ellipse cx="60" cy="80" rx="49" ry="52" fill="url(#bG4)"/>
+          <ellipse cx="39" cy="57" rx="14" ry="10" fill="rgba(255,255,255,0.55)" transform="rotate(-25,39,57)"/>
+          <!-- Shocked brows — angled inward -->
+          <path d="M35 62 Q44 56 53 61" stroke="#1A2340" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path d="M67 61 Q76 55 85 60" stroke="#1A2340" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <!-- CONSISTENT eyes: dark solid + white highlight dot, same as all other sprites -->
+          <g id="surp-eyeL">
+            <circle cx="46" cy="75" r="8" fill="#1A2340"/>
+            <circle cx="48" cy="72" r="2.5" fill="white"/>
+          </g>
+          <g id="surp-eyeR">
+            <circle cx="74" cy="75" r="8" fill="#1A2340"/>
+            <circle cx="76" cy="72" r="2.5" fill="white"/>
+          </g>
+          <!-- Open-O mouth -->
+          <ellipse cx="60" cy="96" rx="11" ry="10" fill="#1A1010"/>
+          <ellipse cx="60" cy="97" rx="7"  ry="6"  fill="#E05535"/>
+          <path d="M49 96 Q60 87 71 96" stroke="#1A2340" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M49 97 Q60 106 71 97" stroke="#1A2340" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <!-- Cap askew from shock -->
+          <g transform="rotate(-18,60,36) translate(4,-3)">
+            <rect x="26" y="38" width="68" height="9" rx="4" fill="#1B2340"/>
+            <rect x="30" y="18" width="60" height="22" rx="5" fill="#1B2340"/>
+            <circle cx="60" cy="20" r="3" fill="#2A3560"/>
+            <line x1="79" y1="20" x2="90" y2="37" stroke="#F0B429" stroke-width="3"/>
+            <circle cx="91" cy="39" r="5" fill="#F0B429"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="label-badge">😲 Surprised</div>
+    <div class="card-desc">Wrong Answer · Unexpected Event</div>
+  </div>
+
+  <!-- ═══════════════ 5. ENCOURAGING ═══════════════ -->
+  <div class="card encouraging">
+    <div class="sprite-wrapper">
+      <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bG5" cx="38%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="55%" stop-color="#CBF0F4"/>
+            <stop offset="100%" stop-color="#72C8D4"/>
+          </radialGradient>
+        </defs>
+        <!-- Floating heart -->
+        <g id="enc-heart">
+          <text x="14" y="66" font-size="14" fill="#FF6B6B">♥</text>
+        </g>
+        <!-- Fist pump arm -->
+        <g id="enc-armL">
+          <path d="M14 88 C2 80 -4 70 2 60" stroke="#1A2340" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <circle cx="3" cy="56" r="6" fill="#1A2340"/>
+          <line x1="0"  y1="51" x2="-3" y2="45" stroke="#1A2340" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="4"  y1="49" x2="3"  y2="42" stroke="#1A2340" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+        <!-- Other arm -->
+        <g id="enc-armR">
+          <line x1="106" y1="90" x2="116" y2="106" stroke="#1A2340" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="116" cy="110" r="6" fill="#1A2340"/>
+        </g>
+        <!-- Leaning body -->
+        <g id="enc-body">
+          <ellipse cx="43" cy="122" rx="13" ry="10" fill="#7CC8D4"/>
+          <ellipse cx="77" cy="122" rx="13" ry="10" fill="#7CC8D4"/>
+          <ellipse cx="60" cy="78" rx="48" ry="52" fill="url(#bG5)"/>
+          <ellipse cx="39" cy="55" rx="14" ry="10" fill="rgba(255,255,255,0.55)" transform="rotate(-25,39,55)"/>
+          <!-- Warm brows -->
+          <path d="M40 64 Q46 61 52 63" stroke="#1A2340" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M68 63 Q74 60 80 62" stroke="#1A2340" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <!-- Eyes -->
+          <circle cx="46" cy="73" r="7" fill="#1A2340"/>
+          <circle cx="74" cy="73" r="7" fill="#1A2340"/>
+          <circle cx="48" cy="71" r="2.5" fill="white"/>
+          <circle cx="76" cy="71" r="2.5" fill="white"/>
+          <!-- Warm smile -->
+          <path d="M43 88 Q60 102 77 88" fill="#1A1010"/>
+          <ellipse cx="60" cy="96" rx="10" ry="5" fill="#E05535"/>
+          <path d="M43 88 Q60 100 77 88" stroke="#1A2340" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <!-- Cap -->
+          <rect x="26" y="38" width="68" height="9" rx="4" fill="#1B2340"/>
+          <rect x="30" y="18" width="60" height="22" rx="5" fill="#1B2340"/>
+          <circle cx="60" cy="20" r="3" fill="#2A3560"/>
+          <line x1="79" y1="20" x2="92" y2="38" stroke="#F0B429" stroke-width="3"/>
+          <circle cx="93" cy="40" r="5" fill="#F0B429"/>
+          <line x1="93" y1="45" x2="89" y2="55" stroke="#F0B429" stroke-width="2.5"/>
+          <line x1="93" y1="45" x2="93" y2="56" stroke="#F0B429" stroke-width="2.5"/>
+          <line x1="93" y1="45" x2="97" y2="55" stroke="#F0B429" stroke-width="2.5"/>
+        </g>
+      </svg>
+    </div>
+    <div class="label-badge">💪 Encouraging</div>
+    <div class="card-desc">Streak Broken · Empty State</div>
+  </div>
+
+  <!-- ═══════════════ 6. SLEEPING ═══════════════ -->
+  <div class="card sleeping">
+    <div class="sprite-wrapper">
+      <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bG6" cx="38%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#E8F4F8"/>
+            <stop offset="55%" stop-color="#B8DFE8"/>
+            <stop offset="100%" stop-color="#6AB8C8"/>
+          </radialGradient>
+        </defs>
+        <!-- Floating ZZZs -->
+        <text id="zzz1" x="82" y="54" font-size="13" font-weight="900" fill="#94A3B8" font-family="Nunito,sans-serif">Z</text>
+        <text id="zzz2" x="94" y="38" font-size="10" font-weight="900" fill="#94A3B8" font-family="Nunito,sans-serif">Z</text>
+        <text id="zzz3" x="103" y="24" font-size="8"  font-weight="900" fill="#94A3B8" font-family="Nunito,sans-serif">Z</text>
+        <!-- Pendulum body sway -->
+        <g id="sleep-body">
+          <!-- Arms drooping -->
+          <line x1="14" y1="92" x2="4" y2="114" stroke="#6ABAC8" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="4" cy="118" r="5.5" fill="#6ABAC8"/>
+          <line x1="106" y1="92" x2="116" y2="114" stroke="#6ABAC8" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="116" cy="118" r="5.5" fill="#6ABAC8"/>
+          <!-- Feet -->
+          <ellipse cx="45" cy="124" rx="13" ry="9" fill="#6ABAC8" transform="rotate(8,45,124)"/>
+          <ellipse cx="75" cy="124" rx="13" ry="9" fill="#6ABAC8" transform="rotate(-8,75,124)"/>
+          <!-- Body -->
+          <ellipse cx="60" cy="80" rx="48" ry="50" fill="url(#bG6)" transform="rotate(-2,60,80)"/>
+          <ellipse cx="40" cy="57" rx="13" ry="9" fill="rgba(255,255,255,0.4)" transform="rotate(-25,40,57)"/>
+          <!-- Head nods separately -->
+          <g id="sleep-head">
+            <path d="M39 74 Q46 70 53 74" stroke="#1A2340" stroke-width="4" stroke-linecap="round" fill="none" opacity=".7"/>
+            <path d="M67 74 Q74 70 81 74" stroke="#1A2340" stroke-width="4" stroke-linecap="round" fill="none" opacity=".7"/>
+            <path d="M49 88 Q60 94 71 88" stroke="#1A2340" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".7"/>
+            <ellipse cx="38" cy="82" rx="8" ry="5" fill="#FFB8B8" opacity=".4"/>
+            <ellipse cx="82" cy="82" rx="8" ry="5" fill="#FFB8B8" opacity=".4"/>
+          </g>
+          <!-- Cap tilted sleepy -->
+          <g transform="rotate(-10,60,36)">
+            <rect x="26" y="38" width="68" height="9" rx="4" fill="#1B2340" opacity=".85"/>
+            <rect x="30" y="18" width="60" height="22" rx="5" fill="#1B2340" opacity=".85"/>
+            <circle cx="60" cy="20" r="3" fill="#2A3560"/>
+            <line x1="79" y1="20" x2="92" y2="38" stroke="#F0B429" stroke-width="3"/>
+            <circle cx="93" cy="40" r="5" fill="#F0B429"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="label-badge">😴 Sleeping</div>
+    <div class="card-desc">Offline Mode · Inactive</div>
+  </div>
+
+  <!-- ═══════════════ 7. URGENT ═══════════════ -->
+  <div class="card urgent">
+    <div class="sprite-wrapper">
+      <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bG7" cx="38%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="50%" stop-color="#C8EAF0"/>
+            <stop offset="100%" stop-color="#68BED0"/>
+          </radialGradient>
+        </defs>
+        <!-- Flashing exclamation marks -->
+        <text id="excl-l" x="18" y="46" font-size="17" fill="#F97316" font-weight="900" font-family="Nunito,sans-serif">!</text>
+        <text id="excl-r" x="96" y="44" font-size="17" fill="#F97316" font-weight="900" font-family="Nunito,sans-serif">!</text>
+        <!-- Flying sweat drops -->
+        <g id="urg-swt-l">
+          <path d="M30 68 Q28 74 32 76 Q36 74 34 68 Q32 65 30 68Z" fill="#2EC4D6" opacity=".85"/>
+        </g>
+        <g id="urg-swt-r">
+          <path d="M88 66 Q86 71 90 73 Q94 71 92 66 Q90 63 88 66Z" fill="#2EC4D6" opacity=".7"/>
+        </g>
+        <!-- Full-body trembling group -->
+        <g id="urg-all">
+          <ellipse cx="43" cy="122" rx="13" ry="10" fill="#7CC8D4"/>
+          <ellipse cx="77" cy="122" rx="13" ry="10" fill="#7CC8D4"/>
+          <ellipse cx="60" cy="78" rx="48" ry="52" fill="url(#bG7)"/>
+          <ellipse cx="39" cy="55" rx="14" ry="10" fill="rgba(255,255,255,0.55)" transform="rotate(-25,39,55)"/>
+          <!-- Raised tense arms -->
+          <path d="M14 86 C6 75 4 65 10 58" stroke="#1A2340" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <circle cx="11" cy="55" r="5.5" fill="#1A2340"/>
+          <path d="M106 86 C114 75 116 65 110 58" stroke="#1A2340" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <circle cx="109" cy="55" r="5.5" fill="#1A2340"/>
+          <!-- Furrowed brows -->
+          <path d="M36 64 Q45 60 54 65" stroke="#1A2340" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path d="M66 65 Q75 60 84 64" stroke="#1A2340" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path d="M54 65 L51 62" stroke="#1A2340" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M66 65 L69 62" stroke="#1A2340" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Eyes — consistent style: dark filled + white highlight dot -->
+          <g id="urg-eyeL">
+            <circle cx="46" cy="75" r="7.5" fill="#1A2340"/>
+            <circle cx="48" cy="72" r="2.5" fill="white"/>
+          </g>
+          <g id="urg-eyeR">
+            <circle cx="74" cy="75" r="7.5" fill="#1A2340"/>
+            <circle cx="76" cy="72" r="2.5" fill="white"/>
+          </g>
+          <!-- Grimace/wavy mouth -->
+          <path d="M45 92 Q50 89 55 92 Q60 95 65 92 Q70 89 75 92" stroke="#1A2340" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <!-- Cap -->
+          <rect x="26" y="38" width="68" height="9" rx="4" fill="#1B2340"/>
+          <rect x="30" y="18" width="60" height="22" rx="5" fill="#1B2340"/>
+          <circle cx="60" cy="20" r="3" fill="#2A3560"/>
+          <line x1="79" y1="20" x2="92" y2="38" stroke="#F0B429" stroke-width="3"/>
+          <circle cx="93" cy="40" r="5" fill="#F0B429"/>
+          <line x1="93" y1="45" x2="89" y2="55" stroke="#F0B429" stroke-width="2.5"/>
+          <line x1="93" y1="45" x2="93" y2="56" stroke="#F0B429" stroke-width="2.5"/>
+          <line x1="93" y1="45" x2="97" y2="55" stroke="#F0B429" stroke-width="2.5"/>
+        </g>
+      </svg>
+    </div>
+    <div class="label-badge">⚠️ Urgent</div>
+    <div class="card-desc">Streak at Risk · Inactivity Warning</div>
+  </div>
+
+</div>
+
+<!-- ══════ SIZE VARIANTS ══════ -->
+<div style="max-width:1200px;margin:64px auto 0;padding-bottom:56px;">
+  <div style="text-align:center;margin-bottom:32px;">
+    <h2 style="font-size:22px;font-weight:800;color:#1A2340;letter-spacing:-0.3px;">3 Required Sizes</h2>
+    <p style="font-size:14px;font-weight:600;color:#6B7C9A;margin-top:6px;">Hero · Medium · Small — Celebrating pose</p>
+  </div>
+  <div style="display:flex;align-items:flex-end;justify-content:center;gap:56px;flex-wrap:wrap;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <div style="width:120px;height:120px;filter:drop-shadow(0 10px 20px rgba(30,60,100,0.18));">
+        <svg viewBox="0 0 120 140" width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+          <defs><radialGradient id="sz1" cx="38%" cy="28%" r="65%"><stop offset="0%" stop-color="#fff"/><stop offset="50%" stop-color="#BFEFF4"/><stop offset="100%" stop-color="#60C8D8"/></radialGradient></defs>
+          <ellipse cx="40" cy="124" rx="12" ry="9" fill="#7CC8D4"/><ellipse cx="80" cy="120" rx="12" ry="9" fill="#7CC8D4"/>
+          <ellipse cx="60" cy="78" rx="48" ry="52" fill="url(#sz1)"/>
+          <ellipse cx="39" cy="54" rx="14" ry="10" fill="rgba(255,255,255,0.55)" transform="rotate(-25,39,54)"/>
+          <path d="M14 82 C4 68 2 52 10 42" stroke="#1A2340" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <path d="M106 82 C116 65 118 48 110 38" stroke="#1A2340" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <path d="M39 72 Q46 65 53 72" stroke="#1A2340" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M67 72 Q74 65 81 72" stroke="#1A2340" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M39 84 Q60 108 81 84" fill="#1A1010"/>
+          <ellipse cx="60" cy="99" rx="13" ry="7" fill="#E05535"/>
+          <g transform="rotate(12,60,36)"><rect x="26" y="36" width="68" height="9" rx="4" fill="#1B2340"/><rect x="30" y="16" width="60" height="22" rx="5" fill="#1B2340"/><line x1="79" y1="18" x2="93" y2="36" stroke="#F0B429" stroke-width="3"/><circle cx="94" cy="38" r="5" fill="#F0B429"/></g>
+        </svg>
+      </div>
+      <div style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#2EC4D6;background:#E0F9FC;padding:4px 12px;border-radius:9999px;">Hero — 120px</div>
+      <div style="font-size:12px;font-weight:600;color:#6B7C9A;">Results Screen</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <div style="width:72px;height:72px;filter:drop-shadow(0 6px 12px rgba(30,60,100,0.15));">
+        <svg viewBox="0 0 120 140" width="72" height="72" xmlns="http://www.w3.org/2000/svg">
+          <defs><radialGradient id="sz2" cx="38%" cy="28%" r="65%"><stop offset="0%" stop-color="#fff"/><stop offset="50%" stop-color="#BFEFF4"/><stop offset="100%" stop-color="#60C8D8"/></radialGradient></defs>
+          <ellipse cx="40" cy="124" rx="12" ry="9" fill="#7CC8D4"/><ellipse cx="80" cy="120" rx="12" ry="9" fill="#7CC8D4"/>
+          <ellipse cx="60" cy="78" rx="48" ry="52" fill="url(#sz2)"/>
+          <ellipse cx="39" cy="54" rx="14" ry="10" fill="rgba(255,255,255,0.55)" transform="rotate(-25,39,54)"/>
+          <path d="M39 72 Q46 65 53 72" stroke="#1A2340" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M67 72 Q74 65 81 72" stroke="#1A2340" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M39 84 Q60 108 81 84" fill="#1A1010"/>
+          <ellipse cx="60" cy="99" rx="13" ry="7" fill="#E05535"/>
+          <g transform="rotate(12,60,36)"><rect x="26" y="36" width="68" height="9" rx="4" fill="#1B2340"/><rect x="30" y="16" width="60" height="22" rx="5" fill="#1B2340"/><line x1="79" y1="18" x2="93" y2="36" stroke="#F0B429" stroke-width="3"/><circle cx="94" cy="38" r="5" fill="#F0B429"/></g>
+        </svg>
+      </div>
+      <div style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#2EC4D6;background:#E0F9FC;padding:4px 12px;border-radius:9999px;">Medium — 72px</div>
+      <div style="font-size:12px;font-weight:600;color:#6B7C9A;">Card / Speech Bubble</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;filter:drop-shadow(0 4px 8px rgba(30,60,100,0.12));">
+        <svg viewBox="0 0 120 140" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+          <defs><radialGradient id="sz3" cx="38%" cy="28%" r="65%"><stop offset="0%" stop-color="#fff"/><stop offset="50%" stop-color="#BFEFF4"/><stop offset="100%" stop-color="#60C8D8"/></radialGradient></defs>
+          <ellipse cx="40" cy="124" rx="12" ry="9" fill="#7CC8D4"/><ellipse cx="80" cy="120" rx="12" ry="9" fill="#7CC8D4"/>
+          <ellipse cx="60" cy="78" rx="48" ry="52" fill="url(#sz3)"/>
+          <path d="M39 72 Q46 65 53 72" stroke="#1A2340" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M67 72 Q74 65 81 72" stroke="#1A2340" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M39 84 Q60 108 81 84" fill="#1A1010"/>
+          <ellipse cx="60" cy="99" rx="13" ry="7" fill="#E05535"/>
+          <g transform="rotate(12,60,36)"><rect x="26" y="36" width="68" height="9" rx="4" fill="#1B2340"/><rect x="30" y="16" width="60" height="22" rx="5" fill="#1B2340"/><line x1="79" y1="18" x2="93" y2="36" stroke="#F0B429" stroke-width="3"/><circle cx="94" cy="38" r="5" fill="#F0B429"/></g>
+        </svg>
+      </div>
+      <div style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#2EC4D6;background:#E0F9FC;padding:4px 12px;border-radius:9999px;">Small — 40px</div>
+      <div style="font-size:12px;font-weight:600;color:#6B7C9A;">HUD Icon / FAB</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
