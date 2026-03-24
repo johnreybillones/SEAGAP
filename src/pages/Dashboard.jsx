@@ -118,13 +118,13 @@ export default function Dashboard() {
           <div className="bg-card border-2 border-border rounded-2xl overflow-hidden shadow-3d-gray">
             <div className="relative h-32 bg-gradient-to-br from-primary to-primary/60">
               <img
-                src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=400&q=80"
+                src="/illustrations/course-hero.svg"
                 className="w-full h-full object-cover opacity-40"
                 alt=""
               />
               <div className="absolute inset-0 p-4 flex flex-col justify-end">
-                <p className="text-xs font-extrabold text-white/70 uppercase tracking-widest">Continue Learning</p>
-                <p className="text-xl font-black text-white">{courses[0].title}</p>
+                <p className="text-xs font-extrabold text-black/70 uppercase tracking-widest">Continue Learning</p>
+                <p className="text-xl font-black text-black">{courses[0].title}</p>
               </div>
             </div>
             <div className="p-4 space-y-3">

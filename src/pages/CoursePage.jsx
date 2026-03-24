@@ -9,6 +9,7 @@ import Button3D from "../components/Button3D";
 import StatPill from "../components/StatPill";
 import ProgressBar from "../components/ProgressBar";
 import AssistiveButton from "../components/AssistiveButton";
+import BottomTabBar from "../components/BottomTabBar";
 
 const TABS = ["MODULES", "QUIZZES", "ASSIGNMENTS", "STUDENTS"];
 const MOCK_MODULES = demoModules;
@@ -91,10 +92,10 @@ export default function CoursePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-16 font-nunito">
+    <div className="min-h-screen bg-background pb-24 font-nunito">
       {/* Header */}
       <div className="relative h-52">
-        <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&q=80" className="w-full h-full object-cover" alt="" />
+        <img src="/illustrations/course-hero.svg" className="w-full h-full object-cover" alt="" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         <button onClick={() => navigate(-1)} className="absolute top-14 left-4 w-9 h-9 rounded-full bg-black/40 flex items-center justify-center">
           <ChevronLeft size={20} className="text-white" />
@@ -317,6 +318,7 @@ export default function CoursePage() {
       )}
 
       <AssistiveButton />
+      <BottomTabBar />
     </div>
   );
 }

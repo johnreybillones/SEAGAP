@@ -187,12 +187,21 @@
   align-items: stretch;
   justify-content: center;
   --prototype-bezel: 0px;
+  --prototype-radius: 3rem;
+  --prototype-shell: hsl(220 14% 10%);
 }
 
-.mobile-prototype .prototype-device {
+.mobile-prototype .prototype-hardware {
+  position: relative;
   width: min(100%, var(--prototype-width, 390px));
   min-height: min(100dvh, var(--prototype-height, 844px));
   height: min(100dvh, var(--prototype-height, 844px));
+}
+
+.mobile-prototype .prototype-device {
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
   background: hsl(var(--background));
   position: relative;
   overflow-x: hidden;
@@ -203,6 +212,21 @@
 
 .mobile-prototype .prototype-device::-webkit-scrollbar {
   display: none;
+}
+
+.mobile-prototype .prototype-island {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34%;
+  max-width: 152px;
+  height: 34px;
+  border-radius: 999px;
+  background: #000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+  pointer-events: none;
+  z-index: 130;
 }
 
 .mobile-prototype .prototype-fixed-nav {
@@ -257,7 +281,8 @@
   .mobile-prototype {
     align-items: center;
     padding: 1rem;
-    --prototype-bezel: 8px;
+    --prototype-bezel: 10px;
+    --prototype-radius: 3.25rem;
     background:
       radial-gradient(circle at 20% 20%, hsl(var(--primary) / 0.14), transparent 36%),
       radial-gradient(circle at 80% 85%, hsl(var(--reward) / 0.14), transparent 42%),
@@ -266,17 +291,37 @@
 
   .mobile-prototype .prototype-device {
     max-height: min(calc(100dvh - 2rem), var(--prototype-height, 844px));
-    border-radius: 2rem;
-    border: var(--prototype-bezel) solid hsl(220 12% 18% / 0.9);
-    box-shadow: 0 30px 90px hsl(220 30% 10% / 0.25), 0 6px 18px hsl(220 30% 10% / 0.18);
+    border-radius: var(--prototype-radius);
+    border: var(--prototype-bezel) solid var(--prototype-shell);
+    background:
+      linear-gradient(180deg, hsl(var(--background)), hsl(var(--background))),
+      linear-gradient(180deg, hsl(220 10% 14%), hsl(220 12% 8%));
+    box-shadow:
+      0 34px 110px hsl(220 30% 10% / 0.26),
+      0 8px 24px hsl(220 30% 10% / 0.2),
+      inset 0 1px 0 hsl(0 0% 100% / 0.08);
     overflow-x: hidden;
     overflow-y: auto;
   }
 
+  .mobile-prototype .prototype-hardware {
+    width: var(--prototype-width, 402px);
+    max-width: min(100%, var(--prototype-width, 402px));
+    min-height: min(calc(100dvh - 2rem), var(--prototype-height, 874px));
+    height: min(calc(100dvh - 2rem), var(--prototype-height, 874px));
+  }
+
+  .mobile-prototype .prototype-island {
+    top: 18px;
+    height: 36px;
+    width: 36%;
+    max-width: 158px;
+  }
+
   .mobile-prototype .prototype-fixed-nav {
     bottom: calc((100dvh - min(var(--prototype-height, 844px), calc(100dvh - 2rem))) / 2 + var(--prototype-bezel));
-    border-bottom-left-radius: 1.5rem;
-    border-bottom-right-radius: 1.5rem;
+    border-bottom-left-radius: calc(var(--prototype-radius) - 1rem);
+    border-bottom-right-radius: calc(var(--prototype-radius) - 1rem);
     overflow: hidden;
   }
 
@@ -291,7 +336,7 @@
   }
 
   .mobile-prototype .prototype-layer-rounded {
-    border-radius: calc(2rem - var(--prototype-bezel));
+    border-radius: calc(var(--prototype-radius) - var(--prototype-bezel));
   }
 
   .mobile-prototype .prototype-fixed-bottom-sheet {

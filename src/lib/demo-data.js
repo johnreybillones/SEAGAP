@@ -180,8 +180,8 @@ const buildModuleSequence = ({
 export const demoModuleSequences = {
   m1: buildModuleSequence({
     topic: "Linear equations",
-    imageA: "https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?w=900&q=80",
-    imageB: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=900&q=80",
+    imageA: "/illustrations/module-concept.svg",
+    imageB: "/illustrations/module-practice.svg",
     quizPromptA: "What should stay true while solving an equation?",
     quizPromptB: "For x + 5 = 11, what is the best first step?",
     finalPrompt: "If 2x + 8 = 20, what is x?",
@@ -191,8 +191,8 @@ export const demoModuleSequences = {
   }),
   m2: buildModuleSequence({
     topic: "One-step equations",
-    imageA: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=900&q=80",
-    imageB: "https://images.unsplash.com/photo-1513258496099-48168024aec0?w=900&q=80",
+    imageA: "/illustrations/module-concept.svg",
+    imageB: "/illustrations/module-practice.svg",
     quizPromptA: "What operation helps isolate the variable first?",
     quizPromptB: "For x - 7 = 9, what should you do?",
     finalPrompt: "Solve x / 4 = 3.",
@@ -202,8 +202,8 @@ export const demoModuleSequences = {
   }),
   m3: buildModuleSequence({
     topic: "Word problems",
-    imageA: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=900&q=80",
-    imageB: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=900&q=80",
+    imageA: "/illustrations/module-review.svg",
+    imageB: "/illustrations/module-practice.svg",
     quizPromptA: "What is the first thing to identify in a word problem?",
     quizPromptB: "Which action best helps turn a sentence into an equation?",
     finalPrompt: "A number plus 8 equals 21. What is the number?",

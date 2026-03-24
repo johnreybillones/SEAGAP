@@ -107,10 +107,10 @@ export default function Profile() {
         <div className="absolute top-10 right-10 h-20 w-20 rounded-full bg-accent/20 blur-md" />
         <div className="absolute bottom-0 left-1/2 h-24 w-40 -translate-x-1/2 rounded-full bg-white/10 blur-2xl" />
         <button onClick={() => navigate(-1)} className="absolute top-14 left-4 w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
-          <ChevronLeft size={20} className="text-white" />
+          <ChevronLeft size={20} className="text-black" />
         </button>
         <button className="absolute top-14 right-4 w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
-          <Settings size={18} className="text-white" />
+          <Settings size={18} className="text-black" />
         </button>
 
         <div className="flex flex-col items-center gap-3">
@@ -125,8 +125,8 @@ export default function Profile() {
             </button>
           </div>
           <div className="text-center">
-            <h2 className="text-2xl font-black text-white">{user?.full_name || "Champion"}</h2>
-            <p className="text-white/70 text-sm font-semibold">Grade 10 · Ateneo HS</p>
+            <h2 className="text-2xl font-black text-black">{user?.full_name || "Champion"}</h2>
+            <p className="text-black/70 text-sm font-semibold">Grade 10 · Ateneo HS</p>
           </div>
         </div>
       </div>
