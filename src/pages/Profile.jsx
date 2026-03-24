@@ -221,11 +221,11 @@ export default function Profile() {
           <div className="grid grid-cols-1 gap-3">
             {RETENTION_CARDS.map((card) => (
               <div key={card.label} className="bg-card border-2 border-border rounded-2xl p-4 flex items-center justify-between gap-3">
-                <div>
+                <div className="min-w-0 flex-1">
                   <p className="text-xs font-extrabold uppercase tracking-wide text-muted-foreground">{card.label}</p>
                   <p className="text-sm font-semibold text-muted-foreground mt-1">{card.note}</p>
                 </div>
-                <span className={`text-lg font-black px-3 py-2 rounded-2xl ${card.tone === "primary" ? "bg-primary-tint text-primary" : card.tone === "reward" ? "bg-reward-tint text-reward" : "bg-error-tint text-error"}`}>
+                <span className={`block max-w-[48%] overflow-hidden text-ellipsis whitespace-nowrap text-base sm:text-lg leading-none font-black px-3 py-2 rounded-2xl ${card.tone === "primary" ? "bg-primary-tint text-primary" : card.tone === "reward" ? "bg-reward-tint text-reward" : "bg-error-tint text-error"}`}>
                   {card.value}
                 </span>
               </div>

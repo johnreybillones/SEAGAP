@@ -76,7 +76,7 @@ const AuthenticatedApp = () => {
 function App() {
   const mobileFrameEnabled = import.meta.env.VITE_MOBILE_FRAME !== 'false';
   const configuredFrameWidth = Number.parseInt(import.meta.env.VITE_MOBILE_FRAME_WIDTH ?? '402', 10);
-  const configuredFrameHeight = Number.parseInt(import.meta.env.VITE_MOBILE_FRAME_HEIGHT ?? '874', 10);
+  const configuredFrameHeight = Number.parseInt(import.meta.env.VITE_MOBILE_FRAME_HEIGHT ?? '800', 10);
   const mobileFrameWidth = Number.isFinite(configuredFrameWidth) && configuredFrameWidth > 0 ? configuredFrameWidth : 402;
   const mobileFrameHeight = Number.isFinite(configuredFrameHeight) && configuredFrameHeight > 0 ? configuredFrameHeight : 874;
 

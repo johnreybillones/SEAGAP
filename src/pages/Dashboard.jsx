@@ -79,7 +79,7 @@ export default function Dashboard() {
           </button>
           <div>
             <p className="text-xs font-bold text-muted-foreground">{greeting},</p>
-            <p className="text-base font-black text-foreground leading-tight">{user?.full_name || "Champion"} 👋</p>
+            <p className="text-base font-black text-foreground leading-tight">{user?.full_name || "Champion"}</p>
           </div>
         </div>
         <button className="relative p-2 rounded-2xl bg-card border-2 border-border press-3d active:translate-y-[2px] shadow-3d-gray">

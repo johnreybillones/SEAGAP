@@ -115,8 +115,8 @@ export default function ModuleLearning() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col font-nunito relative overflow-hidden">
-      <div className="flex items-center gap-3 px-4 pt-14 pb-3">
+    <div className="h-full min-h-0 bg-background flex flex-col font-nunito relative overflow-hidden">
+      <div className="flex items-center gap-3 px-4 pt-14 pb-2">
         <button onClick={() => setShowExit(true)} className="p-2 rounded-xl hover:bg-muted" aria-label="Exit module">
           <X size={22} />
         </button>
@@ -190,18 +190,18 @@ export default function ModuleLearning() {
         </>
       ) : (
         <>
-          <div className="flex-1 flex flex-col px-4 gap-4">
+          <div className="flex-1 flex flex-col px-4 gap-3 min-h-0">
             <p className="text-[11px] font-extrabold uppercase tracking-widest text-muted-foreground">{tx(step.stage)}</p>
 
             <div className="flex items-center gap-3">
               <Mascot emotion={step.isFinal ? "encouraging" : "thinking"} size="small" />
-              <div className="bg-card border-2 border-border rounded-2xl rounded-tl-sm px-3 py-2 text-sm font-semibold text-muted-foreground">
+              <div className="bg-card border-2 border-border rounded-2xl rounded-tl-sm px-3 py-1.5 text-xs font-semibold text-muted-foreground">
                 {step.isFinal ? tx("Final quiz for this module. Take your time.") : tx("Quick practice check before the next lesson page.")}
               </div>
             </div>
 
-            <div className="rounded-3xl bg-card border-2 border-border p-5 shadow-3d-gray">
-              <div className="flex items-center justify-between gap-3 mb-3">
+            <div className="rounded-3xl bg-card border-2 border-border p-4 shadow-3d-gray">
+              <div className="flex items-center justify-between gap-3 mb-2">
                 <div>
                   <p className="text-xs font-extrabold uppercase tracking-widest text-primary">
                     {tx("Quiz")} {currentQuizNumber} {tx("of")} {quizSteps.length}
@@ -210,10 +210,10 @@ export default function ModuleLearning() {
                 </div>
                 <StatPill icon="⭐" value={`+${step.xpReward || 20}`} variant="reward" />
               </div>
-              <p className="text-lg font-bold leading-snug">{tx(step.prompt)}</p>
+              <p className="text-base font-bold leading-snug">{tx(step.prompt)}</p>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {step.options.map((option, index) => {
                 const state = optionState(index);
                 return (
@@ -221,7 +221,7 @@ export default function ModuleLearning() {
                     key={option}
                     onClick={() => !submitted && setSelected(index)}
                     className={cn(
-                      "w-full flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 text-left text-sm font-bold transition-all press-3d",
+                      "w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left text-sm font-bold transition-all press-3d",
                       optionStyles[state],
                       !submitted && "active:translate-y-[3px] active:shadow-none"
                     )}
@@ -245,20 +245,20 @@ export default function ModuleLearning() {
               </div>
               <span className="text-[11px] font-extrabold text-primary">{currentQuizNumber}/{quizSteps.length}</span>
             </div>
-          </div>
 
-          <div className="px-4 pb-8 pt-3">
-            <Button3D fullWidth disabled={selected === null || submitted} onClick={handleSubmitQuiz}>
-              {step.isFinal ? tx("Submit Final Quiz") : tx("Check Answer")}
-            </Button3D>
+            <div className="flex-1 min-h-[110px] flex items-center justify-center pb-6">
+              <Button3D className="w-full max-w-[360px]" disabled={selected === null || submitted} onClick={handleSubmitQuiz}>
+                {step.isFinal ? tx("Submit Final Quiz") : tx("Check Answer")}
+              </Button3D>
+            </div>
           </div>
         </>
       )}
 
       {showFeedback && step.type === "quiz" && (
-        <div className="fixed inset-0 z-50 prototype-fixed-layer prototype-layer-rounded pointer-events-none">
+        <div className="fixed inset-0 z-[70] prototype-fixed-layer prototype-layer-rounded pointer-events-none">
           <div className={cn(
-            "absolute left-0 right-0 bottom-0 rounded-t-3xl p-6 space-y-4 animate-slide-up pointer-events-auto",
+            "absolute left-3 right-3 bottom-4 rounded-3xl p-5 space-y-3 animate-slide-up pointer-events-auto",
             isCorrect ? "bg-success-tint border-t-4 border-success" : "bg-error-tint border-t-4 border-error"
           )}>
             <div className="flex items-center gap-3">

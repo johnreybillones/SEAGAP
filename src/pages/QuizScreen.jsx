@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 import { useAssistiveLanguage } from "@/lib/i18n";
@@ -26,14 +26,12 @@ export default function QuizScreen() {
   const [showExit, setShowExit] = useState(false);
   const [xpFloat, setXpFloat] = useState(false);
   const [shakeIdx, setShakeIdx] = useState(null);
-  const [streak, setStreak] = useState(7);
+  const streak = 7;
   const [xp, setXp] = useState(350);
   const [correctCount, setCorrectCount] = useState(0);
 
   const q = QUESTIONS[qIndex];
   const isCorrect = submitted && selected === q.correct;
-  const isWrong = submitted && selected !== null && selected !== q.correct;
-
   const handleSelect = (i) => {
     if (submitted) return;
     setSelected(i);
@@ -81,15 +79,15 @@ export default function QuizScreen() {
 
   const OPTION_INDICATOR = {
     default: (i) => <span className="w-7 h-7 rounded-full border-2 border-border flex items-center justify-center text-xs font-black">{["A","B","C","D"][i]}</span>,
-    selected: (i) => <span className="w-7 h-7 rounded-full bg-primary flex items-center justify-center"><span className="w-3 h-3 rounded-full bg-white" /></span>,
+    selected: () => <span className="w-7 h-7 rounded-full bg-primary flex items-center justify-center"><span className="w-3 h-3 rounded-full bg-white" /></span>,
     correct: () => <span className="w-7 h-7 rounded-full bg-success flex items-center justify-center text-white text-xs font-black">✓</span>,
     wrong: () => <span className="w-7 h-7 rounded-full bg-error flex items-center justify-center text-white text-xs font-black">✗</span>,
   };
 
   return (
-    <div className="quiz-screen-root min-h-screen bg-background flex flex-col font-nunito relative overflow-hidden">
+    <div className="quiz-screen-root h-full min-h-0 bg-background flex flex-col font-nunito relative overflow-hidden">
       {/* Top HUD */}
-      <div className="flex items-center gap-3 px-4 pt-14 pb-3">
+      <div className="flex items-center gap-3 px-4 pt-14 pb-2">
         <button onClick={() => setShowExit(true)} className="p-2 rounded-xl hover:bg-muted" aria-label="Exit quiz">
           <X size={22} />
         </button>
@@ -105,23 +103,23 @@ export default function QuizScreen() {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col px-4 gap-4">
+      <div className="flex-1 flex flex-col px-4 gap-3 min-h-0">
         {/* Type label */}
         <p className="text-[11px] font-extrabold uppercase tracking-widest text-muted-foreground">{tx(q.type)}</p>
 
         {/* Mascot speech bubble */}
         <div className="flex items-center gap-3">
           <Mascot emotion="thinking" size="small" />
-          <div className="bg-card border-2 border-border rounded-2xl rounded-tl-sm px-3 py-2 text-sm font-semibold text-muted-foreground">
+          <div className="bg-card border-2 border-border rounded-2xl rounded-tl-sm px-3 py-1.5 text-xs font-semibold text-muted-foreground">
             {tx("Choose the best answer below")}
           </div>
         </div>
 
         {/* Question */}
-        <p className="text-lg font-bold leading-snug">{tx(q.q)}</p>
+        <p className="text-base font-bold leading-snug">{tx(q.q)}</p>
 
         {/* Answer options */}
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           {q.options.map((opt, i) => {
             const state = optionState(i);
             return (
@@ -129,7 +127,7 @@ export default function QuizScreen() {
                 key={i}
                 onClick={() => handleSelect(i)}
                 className={cn(
-                  "w-full flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 text-left text-sm font-bold transition-all press-3d",
+                  "w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left text-sm font-bold transition-all press-3d",
                   OPTION_STYLES[state],
                   state !== "wrong" && "active:translate-y-[3px] active:shadow-none",
                   shakeIdx === i && "animate-mascot-shake"
@@ -152,19 +150,18 @@ export default function QuizScreen() {
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Submit button */}
-      <div className="px-4 pb-8 pt-3">
-        <Button3D fullWidth disabled={selected === null && !submitted} onClick={handleSubmit} variant={submitted ? "secondary" : "primary"}>
-          {submitted ? tx("Submitted") : tx("Check Answer")}
-        </Button3D>
+        <div className="flex-1 min-h-[110px] flex items-center justify-center pb-6">
+          <Button3D className="w-full max-w-[360px]" disabled={selected === null && !submitted} onClick={handleSubmit} variant={submitted ? "secondary" : "primary"}>
+            {submitted ? tx("Submitted") : tx("Check Answer")}
+          </Button3D>
+        </div>
       </div>
 
       {/* Feedback sheet */}
       {showSheet && (
-        <div className="fixed inset-0 z-50 prototype-fixed-layer prototype-layer-rounded pointer-events-none">
-          <div className={cn("absolute left-0 right-0 bottom-0 rounded-t-3xl p-6 space-y-4 animate-slide-up pointer-events-auto", isCorrect ? "bg-success-tint border-t-4 border-success" : "bg-error-tint border-t-4 border-error")}>
+        <div className="fixed inset-0 z-[70] prototype-fixed-layer prototype-layer-rounded pointer-events-none">
+          <div className={cn("absolute left-3 right-3 bottom-4 rounded-3xl p-5 space-y-3 animate-slide-up pointer-events-auto", isCorrect ? "bg-success-tint border-t-4 border-success" : "bg-error-tint border-t-4 border-error")}>
             <div className="flex items-center gap-3">
               <Mascot emotion={isCorrect ? "celebrating" : "surprised"} size="small" />
               <div>
