@@ -285,7 +285,7 @@ export default function CoursePage() {
 
       {/* Module bottom sheet */}
       {sheet && (
-        <div className="fixed inset-0 z-50 prototype-fixed-layer prototype-layer-rounded" onClick={() => setSheet(null)}>
+        <div className="fixed inset-0 z-[70] prototype-fixed-layer prototype-layer-rounded" onClick={() => setSheet(null)}>
           <div className="absolute inset-0 bg-black/40" />
           <div className="absolute bottom-0 left-0 right-0 bg-card rounded-t-3xl p-6 space-y-4 animate-slide-up" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between">
