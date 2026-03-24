@@ -6,6 +6,7 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import { isDemoMode } from '@/lib/demo-mode';
+import { AssistiveLanguageProvider } from '@/lib/i18n';
 import Splash from './pages/Splash';
 import Welcome from './pages/Welcome.jsx';
 import Register from './pages/Register';
@@ -13,6 +14,7 @@ import Confirmation from './pages/Confirmation';
 import Dashboard from './pages/Dashboard';
 import Courses from './pages/Courses';
 import CoursePage from './pages/CoursePage';
+import ModuleLearning from './pages/ModuleLearning';
 import QuizScreen from './pages/QuizScreen';
 import QuizResults from './pages/QuizResults';
 import Leaderboard from './pages/Leaderboard';
@@ -32,6 +34,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Dashboard />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/course/:id" element={<CoursePage />} />
+        <Route path="/course/:courseId/module/:moduleId" element={<ModuleLearning />} />
         <Route path="/quiz/:id" element={<QuizScreen />} />
         <Route path="/quiz-results" element={<QuizResults />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
@@ -78,18 +81,20 @@ function App() {
   const mobileFrameHeight = Number.isFinite(configuredFrameHeight) && configuredFrameHeight > 0 ? configuredFrameHeight : 844;
 
   const appTree = (
-    <QueryClientProvider client={queryClientInstance}>
-      <Router>
-        {isDemoMode ? (
-          <AppRoutes />
-        ) : (
-          <AuthProvider>
-            <AuthenticatedApp />
-          </AuthProvider>
-        )}
-      </Router>
-      <Toaster />
-    </QueryClientProvider>
+    <AssistiveLanguageProvider>
+      <QueryClientProvider client={queryClientInstance}>
+        <Router>
+          {isDemoMode ? (
+            <AppRoutes />
+          ) : (
+            <AuthProvider>
+              <AuthenticatedApp />
+            </AuthProvider>
+          )}
+        </Router>
+        <Toaster />
+      </QueryClientProvider>
+    </AssistiveLanguageProvider>
   );
 
   if (!mobileFrameEnabled) {

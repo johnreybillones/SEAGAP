@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
+import { useAssistiveLanguage } from "@/lib/i18n";
 import Mascot from "../components/Mascot";
 import Button3D from "../components/Button3D";
 import StatPill from "../components/StatPill";
@@ -17,6 +18,7 @@ const QUESTIONS = [
 
 export default function QuizScreen() {
   const navigate = useNavigate();
+  const { translateText: tx } = useAssistiveLanguage();
   const [qIndex, setQIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [submitted, setSubmitted] = useState(false);
@@ -105,18 +107,18 @@ export default function QuizScreen() {
 
       <div className="flex-1 flex flex-col px-4 gap-4">
         {/* Type label */}
-        <p className="text-[11px] font-extrabold uppercase tracking-widest text-muted-foreground">{q.type}</p>
+        <p className="text-[11px] font-extrabold uppercase tracking-widest text-muted-foreground">{tx(q.type)}</p>
 
         {/* Mascot speech bubble */}
         <div className="flex items-center gap-3">
           <Mascot emotion="thinking" size="small" />
           <div className="bg-card border-2 border-border rounded-2xl rounded-tl-sm px-3 py-2 text-sm font-semibold text-muted-foreground">
-            Choose the best answer below
+            {tx("Choose the best answer below")}
           </div>
         </div>
 
         {/* Question */}
-        <p className="text-lg font-bold leading-snug">{q.q}</p>
+        <p className="text-lg font-bold leading-snug">{tx(q.q)}</p>
 
         {/* Answer options */}
         <div className="space-y-2">
@@ -134,7 +136,7 @@ export default function QuizScreen() {
                 )}
               >
                 {OPTION_INDICATOR[state](i)}
-                <span className="flex-1">{opt}</span>
+                <span className="flex-1">{tx(opt)}</span>
               </button>
             );
           })}
@@ -142,7 +144,7 @@ export default function QuizScreen() {
 
         {/* Live leaderboard strip */}
         <div className="flex items-center gap-2 bg-card border border-border rounded-xl px-3 py-2">
-          <span className="text-[10px] font-extrabold text-muted-foreground uppercase tracking-wide">LIVE</span>
+          <span className="text-[10px] font-extrabold text-muted-foreground uppercase tracking-wide">{tx("LIVE")}</span>
           {[{ name: "Maria", score: 420, avatar: "M" }, { name: "Juan", score: 380, avatar: "J" }, { name: "You", score: xp, avatar: "Y", isUser: true }].map((p, i) => (
             <div key={i} className={cn("flex items-center gap-1 flex-1 justify-center", p.isUser && "text-primary")}>
               <div className={cn("w-6 h-6 rounded-full text-[10px] font-black flex items-center justify-center", p.isUser ? "bg-primary text-white" : "bg-muted")}>{p.avatar}</div>
@@ -155,7 +157,7 @@ export default function QuizScreen() {
       {/* Submit button */}
       <div className="px-4 pb-8 pt-3">
         <Button3D fullWidth disabled={selected === null && !submitted} onClick={handleSubmit} variant={submitted ? "secondary" : "primary"}>
-          {submitted ? "Submitted" : "Check Answer"}
+          {submitted ? tx("Submitted") : tx("Check Answer")}
         </Button3D>
       </div>
 
@@ -167,14 +169,14 @@ export default function QuizScreen() {
               <Mascot emotion={isCorrect ? "celebrating" : "surprised"} size="small" />
               <div>
                 <p className={cn("text-xl font-black", isCorrect ? "text-success" : "text-error")}>
-                  {isCorrect ? "✓ Correct!" : "✗ Incorrect"}
+                  {isCorrect ? `✓ ${tx("Correct!")}` : `✗ ${tx("Incorrect")}`}
                 </p>
-                {!isCorrect && <p className="text-sm font-semibold text-foreground mt-0.5">{q.explanation}</p>}
+                {!isCorrect && <p className="text-sm font-semibold text-foreground mt-0.5">{tx(q.explanation)}</p>}
               </div>
             </div>
-            {isCorrect && <p className="text-sm font-semibold text-success/80">{q.explanation}</p>}
+            {isCorrect && <p className="text-sm font-semibold text-success/80">{tx(q.explanation)}</p>}
             <Button3D fullWidth variant={isCorrect ? "success" : "error"} onClick={handleContinue}>
-              {qIndex < QUESTIONS.length - 1 ? "Continue →" : "See Results 🏆"}
+              {qIndex < QUESTIONS.length - 1 ? tx("Continue →") : tx("See Results 🏆")}
             </Button3D>
           </div>
         </div>
@@ -189,16 +191,16 @@ export default function QuizScreen() {
               <Mascot emotion="urgent" size="medium" />
             </div>
             <div className="text-center">
-              <h3 className="text-xl font-black">Leave the quiz?</h3>
-              <p className="text-muted-foreground text-sm font-semibold mt-1">Your progress will be lost</p>
+              <h3 className="text-xl font-black">{tx("Leave the quiz?")}</h3>
+              <p className="text-muted-foreground text-sm font-semibold mt-1">{tx("Your progress will be lost")}</p>
             </div>
-            <Button3D fullWidth variant="error" onClick={() => navigate(-1)}>Yes, Leave</Button3D>
-            <Button3D fullWidth variant="secondary" onClick={() => setShowExit(false)}>Keep Going!</Button3D>
+            <Button3D fullWidth variant="error" onClick={() => navigate(-1)}>{tx("Yes, Leave")}</Button3D>
+            <Button3D fullWidth variant="secondary" onClick={() => setShowExit(false)}>{tx("Keep Going!")}</Button3D>
           </div>
         </div>
       )}
 
-      <AssistiveButton hideAITutor />
+      <AssistiveButton />
     </div>
   );
 }

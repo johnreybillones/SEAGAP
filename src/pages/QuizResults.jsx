@@ -12,6 +12,14 @@ export default function QuizResults() {
   const xpEarned = state?.xp ? state.xp - 350 + score * 30 : score * 30;
   const pct = Math.round((score / total) * 100);
   const passed = pct >= 60;
+  const title = passed ? (state?.passedTitle || state?.title || "Amazing! 🎉") : (state?.retryTitle || state?.title || "Keep Going! 💪");
+  const subtitle = passed
+    ? (state?.passedMessage || "You nailed that quiz!")
+    : (state?.retryMessage || "Review and try again — you've got this!");
+  const reviewLabel = state?.reviewLabel || "Review Answers";
+  const reviewPath = state?.reviewPath || "/quiz/demo";
+  const continueLabel = state?.continueLabel || "Continue →";
+  const continuePath = state?.continuePath || "/";
 
   const [displayPct, setDisplayPct] = useState(0);
   const [showStats, setShowStats] = useState(false);
@@ -50,10 +58,8 @@ export default function QuizResults() {
         <Mascot emotion={passed ? "celebrating" : "encouraging"} size="hero" />
 
         <div className="text-center">
-          <h1 className="text-4xl font-black">{passed ? "Amazing! 🎉" : "Keep Going! 💪"}</h1>
-          <p className="text-muted-foreground font-semibold mt-1">
-            {passed ? "You nailed that quiz!" : "Review and try again — you've got this!"}
-          </p>
+          <h1 className="text-4xl font-black">{title}</h1>
+          <p className="text-muted-foreground font-semibold mt-1">{subtitle}</p>
         </div>
 
         {/* Score ring */}
@@ -101,11 +107,11 @@ export default function QuizResults() {
       </div>
 
       <div className="fixed bottom-0 px-6 pb-12 pt-4 bg-gradient-to-t from-background via-background to-transparent space-y-3 prototype-fixed-bottom-sheet prototype-layer-rounded">
-        <Button3D fullWidth variant="secondary" size="md" onClick={() => navigate("/quiz/demo")}>
-          Review Answers
+        <Button3D fullWidth variant="secondary" size="md" onClick={() => navigate(reviewPath)}>
+          {reviewLabel}
         </Button3D>
-        <Button3D fullWidth onClick={() => navigate("/")}>
-          Continue →
+        <Button3D fullWidth onClick={() => navigate(continuePath)}>
+          {continueLabel}
         </Button3D>
       </div>
     </div>

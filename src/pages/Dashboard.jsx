@@ -18,6 +18,11 @@ const CHALLENGES = [
   { title: "Perfect Score", desc: "Get 100% on any quiz today", xp: 200, time: "5h left", icon: "🎯" },
   { title: "Study Buddy", desc: "Help a teammate with a hint", xp: 75, time: "10h left", icon: "🤝" },
 ];
+const DUES_TODAY = [
+  { title: "Problem Set 1", course: "Mathematics Grade 10", due: "4:00 PM", tone: "reward", type: "Assignment" },
+  { title: "Unit 2 Quiz", course: "Mathematics Grade 10", due: "6:30 PM", tone: "primary", type: "Quiz" },
+  { title: "Reflection Note", course: "Biology Fundamentals", due: "8:00 PM", tone: "error", type: "Homework" },
+];
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -174,6 +179,30 @@ export default function Dashboard() {
           )}
         </div>
 
+        {/* Dues for Today */}
+        <div>
+          <h2 className="text-lg font-black mb-3">Dues for Today</h2>
+          <div className="space-y-3">
+            {DUES_TODAY.map((item, i) => (
+              <div key={i} className="bg-card border-2 border-border rounded-2xl p-4 flex items-center gap-3 press-3d active:translate-y-[5px] shadow-3d-gray cursor-pointer">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-lg font-black flex-shrink-0 ${item.tone === "reward" ? "bg-reward-tint text-reward" : item.tone === "primary" ? "bg-primary-tint text-primary" : "bg-error-tint text-error"}`}>
+                  {item.type[0]}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-extrabold text-sm">{item.title}</p>
+                  <p className="text-xs text-muted-foreground truncate">{item.course}</p>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <span className={`text-[10px] font-extrabold px-2 py-1 rounded-full uppercase ${item.tone === "reward" ? "bg-reward-tint text-reward" : item.tone === "primary" ? "bg-primary-tint text-primary" : "bg-error-tint text-error"}`}>
+                    {item.type}
+                  </span>
+                  <span className="text-[10px] font-bold text-muted-foreground">Due {item.due}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Daily Challenges */}
         <div>
           <h2 className="text-lg font-black mb-3">Daily Challenges</h2>
@@ -189,28 +218,6 @@ export default function Dashboard() {
                   <StatPill icon="⭐" value={`+${c.xp}`} variant="reward" />
                   <span className="text-[10px] font-bold text-muted-foreground">{c.time}</span>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Achievements */}
-        <div>
-          <h2 className="text-lg font-black mb-3">Achievements</h2>
-          <div className="flex gap-3 overflow-x-auto -mx-4 px-4 pb-2">
-            {[
-              { icon: "🏆", label: "First Win", earned: true },
-              { icon: "🔥", label: "7 Day Streak", earned: true },
-              { icon: "⭐", label: "100 XP", earned: true },
-              { icon: "🎯", label: "Perfect Score", earned: false },
-              { icon: "📚", label: "5 Courses", earned: false },
-              { icon: "🤝", label: "Team Player", earned: false },
-            ].map((a, i) => (
-              <div key={i} className={`flex-shrink-0 w-16 flex flex-col items-center gap-1 ${!a.earned && "opacity-40"}`}>
-                <div className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl ${a.earned ? "bg-reward-tint border-2 border-reward shadow-3d-reward" : "bg-muted border-2 border-border"}`}>
-                  {a.earned ? a.icon : "🔒"}
-                </div>
-                <span className="text-[10px] font-bold text-center text-muted-foreground leading-tight">{a.label}</span>
               </div>
             ))}
           </div>
